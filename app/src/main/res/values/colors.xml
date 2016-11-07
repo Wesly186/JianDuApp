@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#007fff</color>
+    <color name="colorPrimaryDark">#0072e5</color>
+    <color name="colorAccent">#2196F3</color>
+
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name="registBackgroud">#F0F0F2</color>
+    <color name="dark_grey">#979595</color>
+    <color name="green">#66C300</color>
+    <color name="darkGreen">#009688</color>
+    <color name="iron">#CCCCCC</color>
+    <color name="main_bg">#EFEFF1</color>
+    <color name="dark_divider">#eaeaec</color>
+    <color name="grey">#C8CBD4</color>
+    <color name="comment_bg">#F5F6FA</color>
+    <color name="statusbar_light">#D5D5D5</color>
+    <color name="bitGray">#eeeeee</color>
+    <color name="scan_corner_color">#0effc2</color>
+    <color name="red">#C9280F</color>
+
+    <color name="base_press_color">#A0C2F9</color>
+    <color name="base_release_color">#C8CBD4</color>
+    <color name="ball_press_color">#2196F3</color>
+    <color name="ball_release_color">#ffffff</color>
+</resources>
