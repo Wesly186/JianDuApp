@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">简读</string>
+    <!--tab和-->
+    <string name="tab_home">首页</string>
+    <string name="tab_rank">活动</string>
+    <string name="tab_notify">帮助</string>
+    <string name="tab_usercenter">我的</string>
+    <string name="title_home">首页</string>
+    <string name="title_search">搜索</string>
+    <!--loginActivity-->
+    <string name="phone">手机号</string>
+    <string name="password">密码</string>
+    <string name="login">登陆</string>
+    <string name="register">新用户？注册</string>
 </resources>

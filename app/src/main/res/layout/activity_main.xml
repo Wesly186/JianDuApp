@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/fl_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/page_bg" />
+
+    <View
+        android:id="@+id/divide"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider" />
+
+    <RadioGroup
+        android:id="@+id/rg_bottom_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_home"
+            style="@style/BottomTabStyle"
+            android:drawableTop="@drawable/tab_home_selector"
+            android:text="@string/tab_home" />
+
+        <RadioButton
+            android:id="@+id/rb_rank"
+            style="@style/BottomTabStyle"
+            android:drawableTop="@drawable/tab_rank_selector"
+            android:text="@string/tab_rank" />
+
+        <RadioButton
+            android:id="@+id/rb_notify"
+            style="@style/BottomTabStyle"
+            android:drawableTop="@drawable/tab_notify_selector"
+            android:text="@string/tab_notify" />
+
+        <RadioButton
+            android:id="@+id/rb_usercenter"
+            style="@style/BottomTabStyle"
+            android:drawableTop="@drawable/tab_usercenter_selector"
+            android:text="@string/tab_usercenter" />
+    </RadioGroup>
+</LinearLayout>

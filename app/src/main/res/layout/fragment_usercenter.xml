@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="我的"
+            android:textColor="@color/white"
+            android:textSize="@dimen/title_text_size" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rl_user_profile"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_ripple"
+                android:clickable="true">
+
+                <ImageView
+                    android:id="@+id/iv_head"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/pic_default_user_head" />
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_toRightOf="@id/iv_head"
+                    android:text="登录/注册"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tv_job"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_name"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toEndOf="@id/iv_head"
+                    android:text="我的职位" />
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="20dp"
+                    android:background="@null"
+                    android:src="@drawable/btn_arrow" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider" />
+
+            <RelativeLayout
+                android:id="@+id/rl_messages"
+                style="@style/user_center_setting_item"
+                android:layout_marginTop="15dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/divider" />
+
+                <ImageView
+                    android:id="@+id/iv_message"
+                    style="@style/user_center_setting_item_img"
+                    android:src="@drawable/img_collection" />
+
+                <TextView
+                    style="@style/user_center_setting_item_text"
+                    android:text="我的收藏" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="20dp"
+                    android:text="0篇"
+                    android:textColor="@color/grey" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/divider" />
+
+            <RelativeLayout
+                android:id="@+id/rl_accounts"
+                style="@style/user_center_setting_item">
+
+                <ImageView
+                    android:id="@+id/iv_accounts"
+                    style="@style/user_center_setting_item_img"
+                    android:src="@drawable/img_view" />
+
+                <TextView
+                    style="@style/user_center_setting_item_text"
+                    android:text="我的阅历" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="20dp"
+                    android:text="0篇"
+                    android:textColor="@color/grey" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/divider" />
+
+            <RelativeLayout
+                android:id="@+id/rl_likes"
+                style="@style/user_center_setting_item">
+
+                <ImageView
+                    android:id="@+id/iv_like"
+                    style="@style/user_center_setting_item_img"
+                    android:src="@drawable/img_tag" />
+
+                <TextView
+                    style="@style/user_center_setting_item_text"
+                    android:text="标签管理" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="20dp"
+                    android:text="0个"
+                    android:textColor="@color/grey" />
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider" />
+
+            <RelativeLayout
+                android:id="@+id/rl_rank"
+                style="@style/user_center_setting_item"
+                android:layout_marginTop="15dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/divider" />
+
+                <ImageView
+                    android:id="@+id/iv_rank"
+                    style="@style/user_center_setting_item_img"
+                    android:src="@drawable/img_rank" />
+
+                <TextView
+                    style="@style/user_center_setting_item_text"
+                    android:text="简读排名" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/divider" />
+
+            <RelativeLayout
+                android:id="@+id/rl_settings"
+                style="@style/user_center_setting_item">
+
+                <ImageView
+                    android:id="@+id/iv_settings"
+                    style="@style/user_center_setting_item_img"
+                    android:src="@drawable/img_settings" />
+
+                <TextView
+                    style="@style/user_center_setting_item_text"
+                    android:text="设置" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

@@ -1,6 +1,8 @@
 package com.mialab.jiandu.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 
 import com.mialab.jiandu.R;
 import com.mialab.jiandu.utils.StatusBarUtil;
@@ -27,18 +29,18 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        /*new Handler().postDelayed(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 jump2NextPage();
             }
-        }, 1200);*/
+        }, 1200);
     }
 
     private void jump2NextPage() {
-        /*Intent intent = new Intent();
+        Intent intent = new Intent();
         intent.setClass(SplashActivity.this, MainActivity.class);
         startActivity(intent);
-        finish();*/
+        finish();
     }
 }

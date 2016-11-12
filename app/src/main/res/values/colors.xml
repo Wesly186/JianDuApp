@@ -4,6 +4,10 @@
     <color name="colorPrimaryDark">#0072e5</color>
     <color name="colorAccent">#2196F3</color>
 
+    <color name="page_bg">#f5f7f8</color>
+    <color name="dark_divider">#bababa</color>
+    <color name="divider">#e7e7e7</color>
+
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
     <color name="registBackgroud">#F0F0F2</color>
@@ -11,10 +15,7 @@
     <color name="green">#66C300</color>
     <color name="darkGreen">#009688</color>
     <color name="iron">#CCCCCC</color>
-    <color name="main_bg">#EFEFF1</color>
-    <color name="dark_divider">#eaeaec</color>
     <color name="grey">#C8CBD4</color>
-    <color name="comment_bg">#F5F6FA</color>
     <color name="statusbar_light">#D5D5D5</color>
     <color name="bitGray">#eeeeee</color>
     <color name="scan_corner_color">#0effc2</color>
