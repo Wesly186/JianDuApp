@@ -40,12 +40,19 @@ public class LoginActivity extends BaseActivity implements LoginView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initView();
         initData();
     }
 
     @Override
     protected int getContentViewId() {
         return R.layout.activity_login;
+    }
+
+    @Override
+    protected void initView() {
+        progressDialog = new ProgressDialog(LoginActivity.this,
+                R.style.AppTheme_Dark_Dialog);
     }
 
     @Override
@@ -69,8 +76,6 @@ public class LoginActivity extends BaseActivity implements LoginView {
     public void onLogin() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(etPassword.getWindowToken(), 0);
-        progressDialog = new ProgressDialog(LoginActivity.this,
-                R.style.AppTheme_Dark_Dialog);
         btnLogin.setEnabled(false);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("登陆中...");

@@ -2,8 +2,8 @@
     <string name="app_name">简读</string>
     <!--tab和-->
     <string name="tab_home">首页</string>
-    <string name="tab_rank">活动</string>
-    <string name="tab_notify">帮助</string>
+    <string name="tab_rank">热门</string>
+    <string name="tab_notify">通知</string>
     <string name="tab_usercenter">我的</string>
     <string name="title_home">首页</string>
     <string name="title_search">搜索</string>

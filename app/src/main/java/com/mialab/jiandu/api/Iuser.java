@@ -35,4 +35,13 @@ public interface Iuser {
     @POST("user/updateProfile.do")
     Observable<BaseModel<User>> updateProfile(@Part("accessToken") RequestBody accessToken, @Part MultipartBody.Part headPic, @Part("username") RequestBody username,
                                               @Part("blogAddress") RequestBody blogAddress, @Part("introduction") RequestBody introduction, @Part("sex") RequestBody sex, @Part("job") RequestBody job);
+
+    @FormUrlEncoded
+    @POST("user/getValidationCode.do")
+    Observable<BaseModel<String>> getValidationCode(@Field("phone") String phone, @Field("business") String business);
+
+    @FormUrlEncoded
+    @POST("user/register.do")
+    Observable<BaseModel<String>> register(@Field("phone") String phone, @Field("password") String password,
+                                           @Field("validationCode") int validationCode);
 }

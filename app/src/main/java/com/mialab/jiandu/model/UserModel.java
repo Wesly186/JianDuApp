@@ -25,9 +25,10 @@ import rx.schedulers.Schedulers;
 
 public class UserModel {
 
-
     private HttpSubscriber<LoginInfo> oAuthSubscribe;
     private HttpSubscriber<User> updateProfileSubscribe;
+    private HttpSubscriber<String> validationCodeSubscribe;
+    private HttpSubscriber<String> registerSubscribe;
 
     /**
      * 登陆获得token信息
@@ -150,5 +151,42 @@ public class UserModel {
         PrefUtils.setString(context, GlobalConf.PHONE, "");
         PrefUtils.setString(context, GlobalConf.ACCESS_TOKEN, "");
         PrefUtils.setString(context, GlobalConf.REFRESH_TOKEN, "");
+    }
+
+    /**
+     * 获取验证码
+     *
+     * @param phone
+     * @param business
+     * @param context
+     * @return
+     */
+    public Subscription getValidationCode(String phone, String business, Context context) {
+
+        Iuser iUser = RetrofitHelper.getProxy(Iuser.class, context);
+        Observable<BaseModel<String>> observable = iUser.getValidationCode(phone, business);
+        Subscription subscription = observable.subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(validationCodeSubscribe);
+        return subscription;
+    }
+
+    public void setValidationCodeSubscribe(HttpSubscriber<String> validationCodeSubscribe) {
+        this.validationCodeSubscribe = validationCodeSubscribe;
+    }
+
+    public Subscription register(String phone, String password, int validationCode, Context context) {
+        Iuser iUser = RetrofitHelper.getProxy(Iuser.class, context);
+        Observable<BaseModel<String>> observable = iUser.register(phone, password, validationCode);
+        Subscription subscription = observable.subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(registerSubscribe);
+        return subscription;
+    }
+
+    public void setRegisterSubscribe(HttpSubscriber<String> registerSubscribe) {
+        this.registerSubscribe = registerSubscribe;
     }
 }

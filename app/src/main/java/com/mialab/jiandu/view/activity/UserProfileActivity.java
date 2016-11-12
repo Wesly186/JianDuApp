@@ -1,8 +1,8 @@
 package com.mialab.jiandu.view.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
@@ -65,6 +65,7 @@ public class UserProfileActivity extends BaseActivity implements UserProfileView
     TextView tvIntro;
 
     public static final int REQ_THUMB = 10;
+    public static final int REQ_SELECT_PHOTOS = 11;
 
     private UserProfilePresenter userProfilePresenter;
 
@@ -154,7 +155,10 @@ public class UserProfileActivity extends BaseActivity implements UserProfileView
                 rlAlbum.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        Intent intent = new Intent(Intent.ACTION_PICK, null);
+                        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                        intent.setAction(Intent.ACTION_GET_CONTENT);
+                        startActivityForResult(intent, REQ_SELECT_PHOTOS);
                         dialogChoice.dismiss();
                     }
                 });
@@ -253,32 +257,37 @@ public class UserProfileActivity extends BaseActivity implements UserProfileView
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        File headFile = null;
         switch (requestCode) {
             case REQ_THUMB:
-                if (resultCode != Activity.RESULT_OK) {
-                    return;
+                if (resultCode == RESULT_OK) {
+                    Bundle extras = data.getExtras();
+                    Bitmap imageBitmap = (Bitmap) extras.get("data");
+                    try {
+                        headFile = ImageUtils.saveImage(UserProfileActivity.this, imageBitmap, "JianDu", "head.jpg");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-                Bundle extras = data.getExtras();
-                Bitmap imageBitmap = (Bitmap) extras.get("data");
-                File headFile = null;
-                try {
-                    headFile = ImageUtils.saveImage(UserProfileActivity.this, imageBitmap, "JianDu", "head.png");
-                } catch (Exception e) {
-                    e.printStackTrace();
+                break;
+            case REQ_SELECT_PHOTOS:
+                if (resultCode == RESULT_OK) {
+                    Uri uri = data.getData();
+                    headFile = userProfilePresenter.getAbsolutePath(uri);
                 }
-                Glide.with(this)
-                        .load(headFile)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
-                        .placeholder(R.drawable.pic_default_user_head)
-                        .error(R.drawable.pic_default_user_head)
-                        .centerCrop()
-                        .bitmapTransform(new CropCircleTransformation(UserProfileActivity.this))
-                        .crossFade()
-                        .into(ivHead);
-                userProfilePresenter.updateUserProfile(headFile, user.getUsername(), null, null, null, null);
                 break;
         }
+        Glide.with(this)
+                .load(headFile)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .placeholder(R.drawable.pic_default_user_head)
+                .error(R.drawable.pic_default_user_head)
+                .centerCrop()
+                .bitmapTransform(new CropCircleTransformation(UserProfileActivity.this))
+                .crossFade()
+                .into(ivHead);
+        userProfilePresenter.updateUserProfile(headFile, user.getUsername(), null, null, null, null);
     }
 
     @Override
