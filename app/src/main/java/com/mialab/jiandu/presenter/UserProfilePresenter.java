@@ -28,7 +28,7 @@ public class UserProfilePresenter {
     }
 
     public void updateUserProfile(File headFile, String name, String blog, String intro, String sex, String job) {
-        userModel.setUpdateProfileSubscribe(new HttpSubscriber<User>(context) {
+        userModel.setUpdateProfileSubscribe(new HttpSubscriber<User>() {
             @Override
             public void onSuccess(BaseModel<User> response) {
                 userModel.save2DB(response.getData(), context);
@@ -60,29 +60,5 @@ public class UserProfilePresenter {
      */
     public File getAbsolutePath(final Uri uri) {
         return ImageUtils.scal(uri);
-        /*if (null == uri){
-            return null;
-        }
-        final String scheme = uri.getScheme();
-        String data = null;
-        if (scheme == null){
-            data = uri.getPath();
-        }else if (ContentResolver.SCHEME_FILE.equals(scheme)) {
-            data = uri.getPath();
-        } else if (ContentResolver.SCHEME_CONTENT.equals(scheme)) {
-            Cursor cursor = context.getContentResolver().query(uri,
-                    new String[]{MediaStore.Images.ImageColumns.DATA},null, null, null);
-            if (null != cursor) {
-                if (cursor.moveToFirst()) {
-                    int index = cursor.getColumnIndex(
-                            MediaStore.Images.ImageColumns.DATA);
-                    if (index > -1) {
-                        data = cursor.getString(index);
-                    }
-                }
-                cursor.close();
-            }
-        }
-        return data;*/
     }
 }

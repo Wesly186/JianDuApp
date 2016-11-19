@@ -1,20 +1,29 @@
 package com.mialab.jiandu.view.activity;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.mialab.jiandu.R;
 import com.mialab.jiandu.app.JianDuApplication;
 import com.mialab.jiandu.presenter.SettingPresenter;
+import com.mialab.jiandu.utils.EditDialogBuilder;
 import com.mialab.jiandu.utils.StatusBarUtil;
+import com.mialab.jiandu.utils.ToastUtils;
 import com.mialab.jiandu.view.base.BaseActivity;
 
 import butterknife.BindView;
 
 public class SettingActivity extends BaseActivity implements View.OnClickListener, SettingView {
 
+    @BindView(R.id.rl_star)
+    RelativeLayout rlStar;
+    @BindView(R.id.rl_feedback)
+    RelativeLayout rlFeedBack;
     @BindView(R.id.rl_login_out)
     RelativeLayout rlLoginOut;
 
@@ -49,12 +58,37 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     public void initData() {
         settingPresenter = new SettingPresenter(this, this);
 
+        rlStar.setOnClickListener(this);
+        rlFeedBack.setOnClickListener(this);
         rlLoginOut.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.rl_star:
+                try {
+                    Uri uri = Uri.parse("market://details?id=" + getPackageName());
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    ToastUtils.showToast(this, "没有找到应用市场");
+                }
+                break;
+            case R.id.rl_feedback:
+                EditDialogBuilder builder = new EditDialogBuilder(SettingActivity.this);
+                builder.setDialogTitle("告诉我们你的想法：").setPositiveButtonListener(new EditDialogBuilder.PositiveButtonClickListener() {
+                    @Override
+                    public void onClick(String content) {
+                        if (TextUtils.isEmpty(content.trim())) {
+                            ToastUtils.showToast(SettingActivity.this, "内容不能为空");
+                        } else {
+                            ToastUtils.showToast(SettingActivity.this, "感谢您的反馈！");
+                        }
+                    }
+                }).build().show();
+                break;
             case R.id.rl_login_out:
                 settingPresenter.loginOut();
                 JianDuApplication.finishAll();

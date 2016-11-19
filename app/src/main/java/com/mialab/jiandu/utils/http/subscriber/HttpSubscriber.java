@@ -1,13 +1,7 @@
 package com.mialab.jiandu.utils.http.subscriber;
 
-import android.content.Context;
-import android.content.Intent;
-
-import com.mialab.jiandu.app.JianDuApplication;
 import com.mialab.jiandu.entity.BaseModel;
-import com.mialab.jiandu.utils.ToastUtils;
-import com.mialab.jiandu.utils.http.exception.InvalidAccessTokenException;
-import com.mialab.jiandu.view.activity.LoginActivity;
+import com.mialab.jiandu.utils.http.exception.TokenInvalidException;
 
 import java.io.IOException;
 
@@ -18,12 +12,6 @@ import rx.Subscriber;
  * Created by Wesly186 on 2016/8/23.
  */
 public abstract class HttpSubscriber<T> extends Subscriber<BaseModel<T>> {
-
-    private Context mContext;
-
-    public HttpSubscriber(Context mContext) {
-        this.mContext = mContext;
-    }
 
     /**
      * onNext结束被调用
@@ -45,7 +33,12 @@ public abstract class HttpSubscriber<T> extends Subscriber<BaseModel<T>> {
                 onFailure("服务器出错");
             }
         } else {
-            onFailure(e.getMessage());
+            if (e instanceof TokenInvalidException) {
+                onFailure(e.getMessage());
+            } else {
+                onFailure("未知错误");
+            }
+
         }
     }
 
@@ -53,10 +46,6 @@ public abstract class HttpSubscriber<T> extends Subscriber<BaseModel<T>> {
     public void onNext(BaseModel<T> response) {
         if (response.getCode() == 200) {
             onSuccess(response);
-        } else if (response.getCode() == 402) {
-            onError(new InvalidAccessTokenException("accessToken过期"));
-        } else if (response.getCode() == 403) {
-            onRefreshTokenExpire();
         } else {
             onFailure(response.getMessage());
         }
@@ -81,12 +70,4 @@ public abstract class HttpSubscriber<T> extends Subscriber<BaseModel<T>> {
      */
     public abstract void onBadNetwork();
 
-    /**
-     * refreshToken过期，跳转到登陆界面
-     */
-    private void onRefreshTokenExpire() {
-        ToastUtils.showToast(JianDuApplication.getContext(), "登陆授权失效，请重新登陆");
-        JianDuApplication.finishAll();
-        mContext.startActivity(new Intent(mContext, LoginActivity.class));
-    }
 }

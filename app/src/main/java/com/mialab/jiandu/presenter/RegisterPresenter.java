@@ -38,7 +38,7 @@ public class RegisterPresenter {
             return;
         }
 
-        userModel.setValidationCodeSubscribe(new HttpSubscriber<String>(context) {
+        userModel.setValidationCodeSubscribe(new HttpSubscriber<String>() {
             @Override
             public void onStart() {
                 registerView.beginCount();
@@ -77,7 +77,7 @@ public class RegisterPresenter {
             return;
         }
         int validationCode = registerView.getValidationCode();
-        userModel.setRegisterSubscribe(new HttpSubscriber<String>(context) {
+        userModel.setRegisterSubscribe(new HttpSubscriber<String>() {
             @Override
             public void onStart() {
                 registerView.registing();

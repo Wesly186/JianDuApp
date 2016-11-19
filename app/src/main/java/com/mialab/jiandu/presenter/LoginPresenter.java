@@ -33,7 +33,7 @@ public class LoginPresenter {
             return;
         }
 
-        userModel.setoAuthSubscribe(new HttpSubscriber<LoginInfo>(context) {
+        userModel.setoAuthSubscribe(new HttpSubscriber<LoginInfo>() {
 
             @Override
             public void onStart() {

@@ -52,6 +52,11 @@
 
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider" />
+
     <RelativeLayout
         style="@style/setting_item"
         android:layout_marginTop="15dp">
@@ -148,18 +153,13 @@
         android:background="@color/divider" />
 
     <RelativeLayout
-        android:id="@+id/rl_about"
+        android:id="@+id/rl_feedback"
         style="@style/setting_item"
         android:layout_marginTop="15dp">
 
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1px"
-            android:background="@color/divider" />
-
         <TextView
             style="@style/setting_item_text"
-            android:text="关于" />
+            android:text="用户反馈" />
 
     </RelativeLayout>
 
@@ -169,14 +169,20 @@
         android:background="@color/divider" />
 
     <RelativeLayout
-        android:id="@+id/rl_feedback"
+        android:id="@+id/rl_star"
         style="@style/setting_item">
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1px"
+            android:background="@color/divider" />
 
         <TextView
             style="@style/setting_item_text"
-            android:text="用户反馈" />
+            android:text="为我们评分" />
 
     </RelativeLayout>
+
 
     <View
         android:layout_width="match_parent"
