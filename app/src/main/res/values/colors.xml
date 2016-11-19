@@ -15,7 +15,7 @@
     <color name="green">#66C300</color>
     <color name="darkGreen">#009688</color>
     <color name="iron">#CCCCCC</color>
-    <color name="grey">#C8CBD4</color>
+    <color name="grey">#cccccc</color>
     <color name="statusbar_light">#D5D5D5</color>
     <color name="bitGray">#eeeeee</color>
     <color name="scan_corner_color">#0effc2</color>

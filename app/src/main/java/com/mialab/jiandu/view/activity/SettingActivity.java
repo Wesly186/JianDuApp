@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 
 import com.mialab.jiandu.R;
 import com.mialab.jiandu.app.JianDuApplication;
+import com.mialab.jiandu.entity.AppVersion;
 import com.mialab.jiandu.presenter.SettingPresenter;
 import com.mialab.jiandu.utils.EditDialogBuilder;
 import com.mialab.jiandu.utils.StatusBarUtil;
@@ -95,5 +96,25 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 startActivity(new Intent(SettingActivity.this, LoginActivity.class));
                 break;
         }
+    }
+
+    @Override
+    public void showUpdateDialog(AppVersion data) {
+
+    }
+
+    @Override
+    public void updateProgress(int percentage) {
+
+    }
+
+    @Override
+    public void downloadComplete() {
+
+    }
+
+    @Override
+    public void updateFailed(String message) {
+
     }
 }

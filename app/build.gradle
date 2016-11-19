@@ -53,5 +53,8 @@ dependencies {
     }
     /*EventBus3.0*/
     compile 'org.greenrobot:eventbus:3.0.0'
+    /*ByeBurger*/
     compile 'com.github.githubwing:ByeBurger:1.1.0'
+    /*BaseRecyclerViewAdapterHelper*/
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.6.0'
 }

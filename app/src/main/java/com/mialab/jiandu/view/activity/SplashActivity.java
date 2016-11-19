@@ -5,10 +5,17 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.mialab.jiandu.R;
+import com.mialab.jiandu.entity.AppVersion;
+import com.mialab.jiandu.presenter.SplashPresenter;
 import com.mialab.jiandu.utils.StatusBarUtil;
 import com.mialab.jiandu.view.base.BaseActivity;
 
-public class SplashActivity extends BaseActivity {
+import org.greenrobot.eventbus.EventBus;
+
+public class SplashActivity extends BaseActivity implements SplashView {
+
+    private AppVersion mAppVersion;
+    private SplashPresenter splashPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +36,10 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        //检查更新
+        splashPresenter = new SplashPresenter(this, this);
+        splashPresenter.checkUpdate();
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -42,5 +53,18 @@ public class SplashActivity extends BaseActivity {
         intent.setClass(SplashActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void getNewVersion(AppVersion appVersion) {
+        mAppVersion = appVersion;
+    }
+
+    @Override
+    protected void onStop() {
+        if (mAppVersion != null) {
+            EventBus.getDefault().post(mAppVersion);
+        }
+        super.onStop();
     }
 }

@@ -1,14 +1,10 @@
 package com.mialab.jiandu.view.activity;
 
-import com.mialab.jiandu.entity.AppVersion;
-
 /**
- * Created by Wesly186 on 2016/9/15.
+ * Created by Wesly186 on 2016/11/19.
  */
-public interface SettingView {
 
-    void showUpdateDialog(AppVersion data);
-
+public interface MainView {
     void updateProgress(int percentage);
 
     void downloadComplete();

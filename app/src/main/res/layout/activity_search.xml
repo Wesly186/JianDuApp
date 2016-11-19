@@ -8,8 +8,9 @@
     <RelativeLayout
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="@color/white">
+        android:layout_height="@dimen/toolbar_normal_height"
+        android:background="@color/white"
+        android:elevation="1dp">
 
         <ImageButton
             android:id="@+id/ib_back"
@@ -34,9 +35,9 @@
             android:textSize="@dimen/title_text_size" />
     </RelativeLayout>
 
-    <View
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_rank"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/divider" />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

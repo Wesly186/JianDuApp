@@ -23,6 +23,7 @@ public class GlobalConf {
     public static final String ACCESS_TOKEN = "access_token";
     public static final String REFRESH_TOKEN = "refresh_token";
     public static final String PHONE = "phone";
+    public static final String AUTO_UPDATE_SET = "auto_update_set";
 
     public static void configPlatformsIfNeed() {
         if (SharePlatformConfig.hasAlreadyConfig()) {
