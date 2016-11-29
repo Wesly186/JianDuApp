@@ -12,9 +12,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.mialab.jiandu.R;
 import com.mialab.jiandu.conf.GlobalConf;
 import com.mialab.jiandu.entity.User;
@@ -25,7 +27,7 @@ import com.mialab.jiandu.utils.ImageUtils;
 import com.mialab.jiandu.utils.PrefUtils;
 import com.mialab.jiandu.utils.StatusBarUtil;
 import com.mialab.jiandu.utils.ToastUtils;
-import com.mialab.jiandu.view.base.BaseActivity;
+import com.mialab.jiandu.view.base.MvpActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -34,7 +36,7 @@ import java.io.File;
 import butterknife.BindView;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
-public class UserProfileActivity extends BaseActivity implements UserProfileView, View.OnClickListener {
+public class UserProfileActivity extends MvpActivity<UserProfilePresenter> implements UserProfileView, View.OnClickListener {
 
     @BindView(R.id.ib_back)
     ImageButton ibBack;
@@ -67,14 +69,11 @@ public class UserProfileActivity extends BaseActivity implements UserProfileView
     public static final int REQ_THUMB = 10;
     public static final int REQ_SELECT_PHOTOS = 11;
 
-    private UserProfilePresenter userProfilePresenter;
-
     private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userProfilePresenter = new UserProfilePresenter(this, this);
         initView();
         initData();
     }
@@ -82,6 +81,11 @@ public class UserProfileActivity extends BaseActivity implements UserProfileView
     @Override
     protected int getContentViewId() {
         return R.layout.activity_user_profile;
+    }
+
+    @Override
+    protected UserProfilePresenter initPresenter() {
+        return new UserProfilePresenter(this, this);
     }
 
     @Override
@@ -96,13 +100,12 @@ public class UserProfileActivity extends BaseActivity implements UserProfileView
             StatusBarUtil.setColor(this, getResources().getColor(R.color.statusbar_light), 0);
         }
 
-        user = userProfilePresenter.getUserInfoFormCache(PrefUtils.getString(UserProfileActivity.this, GlobalConf.PHONE, ""));
+        user = mvpPresenter.getUserInfoFormCache(PrefUtils.getString(UserProfileActivity.this, GlobalConf.PHONE, ""));
         Glide.with(this)
                 .load(GlobalConf.BASE_PIC_URL + user.getHeadPic())
                 .placeholder(R.drawable.pic_default_user_head)
                 .error(R.drawable.pic_default_user_head)
-                .centerCrop()
-                .bitmapTransform(new CropCircleTransformation(UserProfileActivity.this))
+                .bitmapTransform(new CenterCrop(this), new CropCircleTransformation(UserProfileActivity.this))
                 .crossFade()
                 .into(ivHead);
         tvSex.setText(user.getSex());
@@ -142,13 +145,8 @@ public class UserProfileActivity extends BaseActivity implements UserProfileView
                 rlCamera.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        //判断是否有相机应用
-                        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                            startActivityForResult(takePictureIntent, REQ_THUMB);
-                        } else {
-                            ToastUtils.showToast(UserProfileActivity.this, "无法启动相机");
-                        }
+                        mvpPresenter.requestCameraPermission();
+
                         dialogChoice.dismiss();
                     }
                 });
@@ -184,7 +182,7 @@ public class UserProfileActivity extends BaseActivity implements UserProfileView
                     @Override
                     public void onClick(View v) {
                         tvSex.setText("男");
-                        userProfilePresenter.updateUserProfile(null, null, null, null, "男", null);
+                        mvpPresenter.updateUserProfile(null, null, null, null, "男", null);
                         dialog.dismiss();
                     }
                 });
@@ -192,7 +190,7 @@ public class UserProfileActivity extends BaseActivity implements UserProfileView
                     @Override
                     public void onClick(View v) {
                         tvSex.setText("女");
-                        userProfilePresenter.updateUserProfile(null, null, null, null, "女", null);
+                        mvpPresenter.updateUserProfile(null, null, null, null, "女", null);
                         dialog.dismiss();
                     }
                 });
@@ -207,7 +205,7 @@ public class UserProfileActivity extends BaseActivity implements UserProfileView
                             ToastUtils.showToast(UserProfileActivity.this, "职位不能为空");
                         } else {
                             tvJob.setText(content);
-                            userProfilePresenter.updateUserProfile(null, null, null, null, null, content);
+                            mvpPresenter.updateUserProfile(null, null, null, null, null, content);
                         }
                     }
                 }).build().show();
@@ -220,7 +218,7 @@ public class UserProfileActivity extends BaseActivity implements UserProfileView
                             ToastUtils.showToast(UserProfileActivity.this, "用户名不能为空");
                         } else {
                             tvName.setText(content);
-                            userProfilePresenter.updateUserProfile(null, content, null, null, null, null);
+                            mvpPresenter.updateUserProfile(null, content, null, null, null, null);
                         }
                     }
                 }).build().show();
@@ -233,7 +231,7 @@ public class UserProfileActivity extends BaseActivity implements UserProfileView
                             ToastUtils.showToast(UserProfileActivity.this, "博客地址不能为空");
                         } else {
                             tvBlog.setText(content);
-                            userProfilePresenter.updateUserProfile(null, null, content, null, null, null);
+                            mvpPresenter.updateUserProfile(null, null, content, null, null, null);
                         }
                     }
                 }).build().show();
@@ -246,7 +244,7 @@ public class UserProfileActivity extends BaseActivity implements UserProfileView
                             ToastUtils.showToast(UserProfileActivity.this, "个人介绍不能为空");
                         } else {
                             tvIntro.setText(content);
-                            userProfilePresenter.updateUserProfile(null, null, null, content, null, null);
+                            mvpPresenter.updateUserProfile(null, null, null, content, null, null);
                         }
                     }
                 }).build().show();
@@ -273,9 +271,12 @@ public class UserProfileActivity extends BaseActivity implements UserProfileView
             case REQ_SELECT_PHOTOS:
                 if (resultCode == RESULT_OK) {
                     Uri uri = data.getData();
-                    headFile = userProfilePresenter.getAbsolutePath(uri);
+                    headFile = mvpPresenter.getAbsolutePath(uri);
                 }
                 break;
+        }
+        if (headFile == null) {
+            return;
         }
         Glide.with(this)
                 .load(headFile)
@@ -283,11 +284,10 @@ public class UserProfileActivity extends BaseActivity implements UserProfileView
                 .skipMemoryCache(true)
                 .placeholder(R.drawable.pic_default_user_head)
                 .error(R.drawable.pic_default_user_head)
-                .centerCrop()
-                .bitmapTransform(new CropCircleTransformation(UserProfileActivity.this))
+                .bitmapTransform(new CenterCrop(this), new CropCircleTransformation(UserProfileActivity.this))
                 .crossFade()
                 .into(ivHead);
-        userProfilePresenter.updateUserProfile(headFile, user.getUsername(), null, null, null, null);
+        mvpPresenter.updateUserProfile(headFile, user.getUsername(), null, null, null, null);
     }
 
     @Override
@@ -307,5 +307,21 @@ public class UserProfileActivity extends BaseActivity implements UserProfileView
     public void onBadNetWork() {
         initView();
         ToastUtils.showToast(this, "网络异常");
+    }
+
+    @Override
+    public void requestCameraSuccess() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        //判断是否有相机应用
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQ_THUMB);
+        } else {
+            ToastUtils.showToast(UserProfileActivity.this, "无法启动相机");
+        }
+    }
+
+    @Override
+    public void requestCameraFailure() {
+        Toast.makeText(this, "没有相机权限，请在设置中授权！", Toast.LENGTH_LONG).show();
     }
 }

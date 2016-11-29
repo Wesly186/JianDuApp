@@ -12,4 +12,8 @@ public interface UserProfileView {
     void updateFailure(String message);
 
     void onBadNetWork();
+
+    void requestCameraSuccess();
+
+    void requestCameraFailure();
 }

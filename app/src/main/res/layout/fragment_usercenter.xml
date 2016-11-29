@@ -146,7 +146,7 @@
                 android:background="@color/divider" />
 
             <RelativeLayout
-                android:id="@+id/rl_likes"
+                android:id="@+id/rl_contributions"
                 style="@style/user_center_setting_item">
 
                 <ImageView
@@ -156,7 +156,7 @@
 
                 <TextView
                     style="@style/user_center_setting_item_text"
-                    android:text="标签管理" />
+                    android:text="投稿管理" />
 
                 <TextView
                     android:layout_width="wrap_content"

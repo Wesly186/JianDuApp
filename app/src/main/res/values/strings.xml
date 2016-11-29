@@ -12,4 +12,11 @@
     <string name="password">密码</string>
     <string name="login">登陆</string>
     <string name="register">新用户？注册</string>
+
+    <string name="menu_copy_url">复制链接</string>
+    <string name="menu_open_with_browser">用浏览器打开</string>
+    <string name="menu_report">报告文章问题</string>
+
+    <string name="share_success">分享成功</string>
+    <string name="share_failure">分享失败</string>
 </resources>

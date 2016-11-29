@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--　　这个属性可接受的值有：
+　　    1、always：这个值会使菜单项一直显示在Action Bar上。
+　　    2、ifRoom：如果有足够的空间，这个值会使菜单项显示在Action Bar上。
+　　    3、never：这个值使菜单项永远都不出现在Action Bar上。
+　　    4、withText：这个值使菜单项和它的图标，菜单文本一起显示。-->
+    <item
+        android:id="@+id/action_copy_url"
+        android:title="@string/menu_copy_url"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_open_with_browser"
+        android:title="@string/menu_open_with_browser"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_report"
+        android:title="@string/menu_report"
+        app:showAsAction="never" />
+</menu>

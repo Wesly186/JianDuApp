@@ -13,13 +13,14 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mialab.jiandu.R;
 import com.mialab.jiandu.entity.AppVersion;
 import com.mialab.jiandu.presenter.MainPresenter;
 import com.mialab.jiandu.utils.StatusBarUtil;
 import com.mialab.jiandu.utils.ToastUtils;
-import com.mialab.jiandu.view.base.BaseActivity;
+import com.mialab.jiandu.view.base.MvpActivity;
 import com.mialab.jiandu.view.fragment.HomeFragment;
 import com.mialab.jiandu.view.fragment.NotifyFragment;
 import com.mialab.jiandu.view.fragment.RankFragment;
@@ -37,14 +38,12 @@ import butterknife.BindView;
 /**
  * Created by Wesly186 on 2016/8/16.
  */
-public class MainActivity extends BaseActivity implements MainView {
+public class MainActivity extends MvpActivity<MainPresenter> implements MainView {
 
     @BindView(R.id.fl_content)
     FrameLayout frameLayout;
     @BindView(R.id.rg_bottom_tab)
     RadioGroup rgTab;
-
-    private MainPresenter mainPresenter;
 
     private HomeFragment mHomeFragment = new HomeFragment();
     private RankFragment mRankFragment = new RankFragment();
@@ -55,6 +54,8 @@ public class MainActivity extends BaseActivity implements MainView {
     private FragmentManager fragmentManager = getSupportFragmentManager();
     private NotificationManager notifyManager;
     private Builder notifyBuilder;
+
+    private AppVersion mAppVersion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,10 @@ public class MainActivity extends BaseActivity implements MainView {
         return R.layout.activity_main;
     }
 
+    @Override
+    protected MainPresenter initPresenter() {
+        return new MainPresenter(this, this);
+    }
 
     @Override
     protected void initView() {
@@ -77,8 +82,6 @@ public class MainActivity extends BaseActivity implements MainView {
 
     @Override
     public void initData() {
-
-        mainPresenter = new MainPresenter(this, this);
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(R.id.fl_content, mHomeFragment);
@@ -122,7 +125,8 @@ public class MainActivity extends BaseActivity implements MainView {
 
     @Subscribe(threadMode = ThreadMode.POSTING)
     public void handleEvent(AppVersion appVersion) {
-        showUpdateDialog(appVersion);
+        mAppVersion = appVersion;
+        mvpPresenter.requestWritePermission();
     }
 
     public void showUpdateDialog(final AppVersion data) {
@@ -147,7 +151,7 @@ public class MainActivity extends BaseActivity implements MainView {
         tvConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                mainPresenter.downloadNewVersion(data);
+                mvpPresenter.downloadNewVersion(data);
                 ToastUtils.showToast(MainActivity.this, "后台下载更新中...");
                 showUpdateNotification();
                 dialog.dismiss();
@@ -191,7 +195,18 @@ public class MainActivity extends BaseActivity implements MainView {
     }
 
     @Override
+    public void requestWriteSuccess() {
+        showUpdateDialog(mAppVersion);
+    }
+
+    @Override
+    public void requestWriteFailure() {
+        Toast.makeText(this, "没有写文件权限，请通过应用市场更新或者在设置中授权！", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
+
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import com.mialab.jiandu.R;
@@ -21,6 +22,8 @@ import butterknife.BindView;
 
 public class SettingActivity extends BaseActivity implements View.OnClickListener, SettingView {
 
+    @BindView(R.id.ib_back)
+    ImageButton ibBavk;
     @BindView(R.id.rl_star)
     RelativeLayout rlStar;
     @BindView(R.id.rl_feedback)
@@ -59,6 +62,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     public void initData() {
         settingPresenter = new SettingPresenter(this, this);
 
+        ibBavk.setOnClickListener(this);
         rlStar.setOnClickListener(this);
         rlFeedBack.setOnClickListener(this);
         rlLoginOut.setOnClickListener(this);
@@ -67,6 +71,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.ib_back:
+                finish();
+                break;
             case R.id.rl_star:
                 try {
                     Uri uri = Uri.parse("market://details?id=" + getPackageName());

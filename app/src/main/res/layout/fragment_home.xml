@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/page_bg"
-    android:orientation="vertical">
+    android:background="@color/page_bg">
 
     <RelativeLayout
         android:id="@+id/rl_title"
@@ -33,4 +32,41 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </android.support.v4.widget.SwipeRefreshLayout>
-</LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_bad_network"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="180dp"
+        android:visibility="invisible">
+
+        <ImageView
+            android:id="@+id/iv_bad_network"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/pic_network_error" />
+
+        <TextView
+            android:id="@+id/tv_bad_network"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_bad_network"
+            android:layout_centerHorizontal="true"
+            android:padding="10dp"
+            android:text="网络似乎出了点问题"
+            android:textColor="@color/grey" />
+
+        <Button
+            android:id="@+id/btn_reload"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@id/tv_bad_network"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/btn_reload_bg_selector"
+            android:text="重新加载"
+            android:textColor="@drawable/btn_reload_text_selector"
+            android:textSize="13sp" />
+    </RelativeLayout>
+</RelativeLayout>

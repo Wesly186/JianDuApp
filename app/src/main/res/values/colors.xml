@@ -5,8 +5,8 @@
     <color name="colorAccent">#2196F3</color>
 
     <color name="page_bg">#f5f7f8</color>
-    <color name="dark_divider">#bababa</color>
     <color name="divider">#e7e7e7</color>
+    <color name="dark_divider">#dcdcdc</color>
 
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
@@ -20,9 +20,6 @@
     <color name="bitGray">#eeeeee</color>
     <color name="scan_corner_color">#0effc2</color>
     <color name="red">#C9280F</color>
+    <color name="orange">#ff9800</color>
 
-    <color name="base_press_color">#A0C2F9</color>
-    <color name="base_release_color">#C8CBD4</color>
-    <color name="ball_press_color">#2196F3</color>
-    <color name="ball_release_color">#ffffff</color>
 </resources>

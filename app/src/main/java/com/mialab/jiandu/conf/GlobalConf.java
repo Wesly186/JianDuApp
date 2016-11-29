@@ -6,18 +6,18 @@ import com.bilibili.socialize.share.util.SharePlatformConfigHelper;
 public class GlobalConf {
 
     //网络相关
-    public static final int DEFAULT_TIMEOUT = 10;
-    public static final String BASE_URL = "http://192.168.1.172/JianDu/";
-    public static final String BASE_PIC_URL = "http://192.168.1.172/pic/";
+    public static final int DEFAULT_TIMEOUT = 6;
+    public static final String BASE_URL = "http://115.159.23.39/JianDu/";
+    public static final String BASE_PIC_URL = "http://115.159.23.39/pic/";
 
     //bilibilishare-appId
-    public static final String QQ_APPID = "1105648886";
-    public static final String QQ_APPKEY = "vrwdz0cu6vL9crd7";
-    public static final String WECHAT_APPID = "1105648886";
-    public static final String WECHAT_APPSECRET = "vrwdz0cu6vL9crd7";
+    public static final String QQ_APPID = "1105848450";
+    public static final String QQ_APPKEY = "qNjJS7Kx52H2JNmY";
+    public static final String WECHAT_APPID = "1105848450";
+    public static final String WECHAT_APPSECRET = "qNjJS7Kx52H2JNmY";
     public static final String SINA_APPKEY = "977861245";
-    public static final String SHARE_TITLE = " 简读";
-    public static final String SHARE_CONTENT = "【简读】";
+    public static final String SHARE_TITLE = " 简读社区";
+    public static final String SHARE_CONTENT = "【简读社区】\n";
 
     //sharepreference的key
     public static final String ACCESS_TOKEN = "access_token";

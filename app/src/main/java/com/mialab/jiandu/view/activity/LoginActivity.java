@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.mialab.jiandu.R;
 import com.mialab.jiandu.app.JianDuApplication;
 import com.mialab.jiandu.presenter.LoginPresenter;
+import com.mialab.jiandu.utils.StatusBarUtil;
 import com.mialab.jiandu.utils.ToastUtils;
 import com.mialab.jiandu.view.base.BaseActivity;
 
@@ -51,6 +52,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
 
     @Override
     protected void initView() {
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimaryDark), 0);
         progressDialog = new ProgressDialog(LoginActivity.this,
                 R.style.AppTheme_Dark_Dialog);
     }

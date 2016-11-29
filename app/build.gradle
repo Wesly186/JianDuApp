@@ -6,10 +6,10 @@ android {
     buildToolsVersion "24.0.2"
     defaultConfig {
         applicationId "com.mialab.jiandu"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 24
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.0.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -30,8 +30,8 @@ dependencies {
     compile 'com.android.support:support-v4:24.2.0'
     compile 'com.android.support:appcompat-v7:24.2.0'
     /*ButterKnife*/
-    compile 'com.jakewharton:butterknife:8.0.1'
-    apt 'com.jakewharton:butterknife-compiler:8.0.1'
+    compile 'com.jakewharton:butterknife:8.1.0'
+    apt 'com.jakewharton:butterknife-compiler:8.1.0'
     /*Retrofit*/
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
@@ -45,6 +45,8 @@ dependencies {
     /*RXJava,RxAndroid*/
     compile 'io.reactivex:rxjava:1.1.9'
     compile 'io.reactivex:rxandroid:1.2.1'
+    /*rxpermissions*/
+    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.0@aar'
     /*BilibiliShare*/
     compile 'com.jungly.socialize:biliShare:0.1.05'
     compile 'com.jungly.socialize:biliShare-util:0.1.05@aar'

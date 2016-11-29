@@ -13,7 +13,7 @@ import com.mialab.jiandu.view.activity.SplashView;
  * Created by Wesly186 on 2016/11/12.
  */
 
-public class SplashPresenter {
+public class SplashPresenter extends BasePresenter {
 
     private Context context;
     private SplashView splashView;

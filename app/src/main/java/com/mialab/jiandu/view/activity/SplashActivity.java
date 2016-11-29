@@ -8,14 +8,13 @@ import com.mialab.jiandu.R;
 import com.mialab.jiandu.entity.AppVersion;
 import com.mialab.jiandu.presenter.SplashPresenter;
 import com.mialab.jiandu.utils.StatusBarUtil;
-import com.mialab.jiandu.view.base.BaseActivity;
+import com.mialab.jiandu.view.base.MvpActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
-public class SplashActivity extends BaseActivity implements SplashView {
+public class SplashActivity extends MvpActivity<SplashPresenter> implements SplashView {
 
     private AppVersion mAppVersion;
-    private SplashPresenter splashPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +29,11 @@ public class SplashActivity extends BaseActivity implements SplashView {
     }
 
     @Override
+    protected SplashPresenter initPresenter() {
+        return new SplashPresenter(this, this);
+    }
+
+    @Override
     protected void initView() {
         StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimary), 0);
     }
@@ -37,8 +41,7 @@ public class SplashActivity extends BaseActivity implements SplashView {
     @Override
     public void initData() {
         //检查更新
-        splashPresenter = new SplashPresenter(this, this);
-        splashPresenter.checkUpdate();
+        mvpPresenter.checkUpdate();
 
         new Handler().postDelayed(new Runnable() {
             @Override

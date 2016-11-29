@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.mialab.jiandu.R;
 import com.mialab.jiandu.presenter.RegisterPresenter;
+import com.mialab.jiandu.utils.StatusBarUtil;
 import com.mialab.jiandu.utils.ToastUtils;
 import com.mialab.jiandu.view.base.BaseActivity;
 
@@ -73,6 +74,7 @@ public class RegisterActivity extends BaseActivity implements RegisterView, View
 
     @Override
     protected void initView() {
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimaryDark), 0);
         progressDialog = new ProgressDialog(RegisterActivity.this,
                 R.style.AppTheme_Dark_Dialog);
     }

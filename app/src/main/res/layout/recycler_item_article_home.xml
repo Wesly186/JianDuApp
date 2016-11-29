@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@drawable/bg_ripple"
     android:orientation="vertical">
 
     <LinearLayout
@@ -12,8 +12,9 @@
         android:gravity="center_vertical">
 
         <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:id="@+id/iv_head"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:src="@drawable/img_discuss" />
 
         <LinearLayout
@@ -22,6 +23,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_writer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -42,11 +44,14 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_breif_intro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
         android:ellipsize="end"
-        android:maxLines="5"
+        android:lineSpacingMultiplier="1.2"
+        android:maxLines="3"
         android:text="本控件不依赖任何父布局，不是针对 RecyclerView、ListView，而是任意的ViewGroup里的childView都可以使用侧滑(删除)菜单。"
         android:textColor="@color/black" />
 
@@ -55,6 +60,7 @@
         android:layout_height="60dp"
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/shape_rec_article"
         android:gravity="center_vertical"
         android:orientation="horizontal">
@@ -76,7 +82,8 @@
             android:maxLines="2"
             android:text="JavaScript秘密花园"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -84,7 +91,6 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/white"
-        android:elevation="1dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -92,7 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:src="@drawable/img_collect_selected" />
+            android:src="@drawable/img_collect_unselected" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -112,6 +118,11 @@
             android:layout_marginStart="5dp"
             android:text="26" />
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider" />
 
     <View
         android:layout_width="match_parent"

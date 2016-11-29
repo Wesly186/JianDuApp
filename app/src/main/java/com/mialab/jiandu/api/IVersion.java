@@ -12,6 +12,6 @@ import rx.Observable;
  */
 public interface IVersion {
 
-    @GET("appVersion/checkUpdate.do")
+    @GET("appVersion/checkUpdate")
     Observable<BaseModel<AppVersion>> checkUpdate(@Query("versionCode") int versionCode);
 }

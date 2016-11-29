@@ -10,4 +10,8 @@ public interface MainView {
     void downloadComplete();
 
     void updateFailed(String message);
+
+    void requestWriteSuccess();
+
+    void requestWriteFailure();
 }
