@@ -25,6 +25,10 @@ public class User {
     private String job;
     @DatabaseField
     private long registerTime;
+    @DatabaseField
+    private int collectionNum;
+    @DatabaseField
+    private int readNum;
 
     public String getPhone() {
         return phone;
@@ -88,5 +92,21 @@ public class User {
 
     public void setSex(String sex) {
         this.sex = sex;
+    }
+
+    public int getCollectionNum() {
+        return collectionNum;
+    }
+
+    public void setCollectionNum(int collectionNum) {
+        this.collectionNum = collectionNum;
+    }
+
+    public int getReadNum() {
+        return readNum;
+    }
+
+    public void setReadNum(int readNum) {
+        this.readNum = readNum;
     }
 }

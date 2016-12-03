@@ -10,8 +10,12 @@ import com.mialab.jiandu.utils.PrefUtils;
 import com.mialab.jiandu.utils.http.helper.RetrofitHelper;
 import com.mialab.jiandu.utils.http.subscriber.HttpSubscriber;
 
+import java.io.File;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -24,7 +28,18 @@ import rx.schedulers.Schedulers;
 public class ArticleModel {
 
     private HttpSubscriber<List<Article>> articleByTimeSubscriber;
+    private HttpSubscriber<List<Article>> articleSyntheticallySubscriber;
+    private HttpSubscriber<String> publishArticleSubscriber;
+    private HttpSubscriber<List<Article>> articleWeekHotSubscriber;
+    private HttpSubscriber<List<Article>> articleCollectionSubscriber;
 
+    /**
+     * 时间顺序
+     *
+     * @param context
+     * @param currentPage
+     * @return
+     */
     public Subscription getArticleByTime(Context context, int currentPage) {
 
         IArticle iArticle = RetrofitHelper.getProxy(IArticle.class, context);
@@ -38,5 +53,105 @@ public class ArticleModel {
 
     public void setArticleByTimeSubscriber(HttpSubscriber<List<Article>> articleByTimeSubscriber) {
         this.articleByTimeSubscriber = articleByTimeSubscriber;
+    }
+
+    /**
+     * 综合排序
+     *
+     * @param context
+     * @param currentPage
+     * @return
+     */
+    public Subscription getArticleSynthetically(Context context, int currentPage) {
+
+        IArticle iArticle = RetrofitHelper.getProxy(IArticle.class, context);
+        Observable<BaseModel<List<Article>>> observable = iArticle.getArticleSynthetically(PrefUtils.getString(context, GlobalConf.ACCESS_TOKEN, ""), currentPage);
+        Subscription subscription = observable.subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(articleSyntheticallySubscriber);
+        return subscription;
+    }
+
+    public void setArticleSyntheticallySubscriber(HttpSubscriber<List<Article>> articleSyntheticallySubscriber) {
+        this.articleSyntheticallySubscriber = articleSyntheticallySubscriber;
+    }
+
+    /**
+     * 本周热门
+     *
+     * @param context
+     * @param currentPage
+     * @return
+     */
+    public Subscription getArticleWeekHot(Context context, int currentPage) {
+
+        IArticle iArticle = RetrofitHelper.getProxy(IArticle.class, context);
+        Observable<BaseModel<List<Article>>> observable = iArticle.getArticleWeekHot(PrefUtils.getString(context, GlobalConf.ACCESS_TOKEN, ""), currentPage);
+        Subscription subscription = observable.subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(articleWeekHotSubscriber);
+        return subscription;
+    }
+
+    public void setArticleWeekHotSubscriber(HttpSubscriber<List<Article>> articleWeekHotSubscriber) {
+        this.articleWeekHotSubscriber = articleWeekHotSubscriber;
+    }
+
+    /**
+     * 我的收藏
+     *
+     * @param context
+     * @param currentPage
+     * @return
+     */
+    public Subscription getArticleCollection(Context context, int currentPage) {
+        IArticle iArticle = RetrofitHelper.getProxy(IArticle.class, context);
+        Observable<BaseModel<List<Article>>> observable = iArticle.getArticleCollection(PrefUtils.getString(context, GlobalConf.ACCESS_TOKEN, ""), currentPage);
+        Subscription subscription = observable.subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(articleCollectionSubscriber);
+        return subscription;
+    }
+
+    public void setArticleCollectionSubscriber(HttpSubscriber<List<Article>> articleCollectionSubscriber) {
+        this.articleCollectionSubscriber = articleCollectionSubscriber;
+    }
+
+    public Subscription publishArticle(Context context, String title, String desc, String address, File articleImg) {
+        RequestBody picBody = null;
+        MultipartBody.Part articlePic = null;
+        RequestBody accessToken = null;
+        RequestBody articleTitle = null;
+        RequestBody articleDesc = null;
+        RequestBody articleAddress = null;
+        //普通key/value
+        accessToken = RequestBody.create(MediaType.parse("multipart/form-data"), PrefUtils.getString(context, GlobalConf.ACCESS_TOKEN, ""));
+        //文章图片
+        if (articleImg != null) {
+            picBody = RequestBody.create(MediaType.parse("multipart/form-data"), articleImg);
+            articlePic = MultipartBody.Part.createFormData("articlePic", articleImg.getName(), picBody);
+        }
+        if (title != null) {
+            articleTitle = RequestBody.create(MediaType.parse("multipart/form-data"), title);
+        }
+        if (desc != null) {
+            articleDesc = RequestBody.create(MediaType.parse("multipart/form-data"), desc);
+        }
+        if (address != null) {
+            articleAddress = RequestBody.create(MediaType.parse("multipart/form-data"), address);
+        }
+        IArticle iArticle = RetrofitHelper.getProxy(IArticle.class, context);
+        Observable<BaseModel<String>> observable = iArticle.publishArticle(accessToken, articlePic, articleTitle, articleDesc, articleAddress);
+        return observable.subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(publishArticleSubscriber);
+    }
+
+    public void setPublishArticleSubscriber(HttpSubscriber<String> publishArticleSubscriber) {
+        this.publishArticleSubscriber = publishArticleSubscriber;
     }
 }

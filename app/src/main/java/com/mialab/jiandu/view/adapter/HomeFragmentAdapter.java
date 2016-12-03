@@ -10,7 +10,9 @@ import com.mialab.jiandu.R;
 import com.mialab.jiandu.conf.GlobalConf;
 import com.mialab.jiandu.entity.Article;
 import com.mialab.jiandu.entity.User;
+import com.mialab.jiandu.utils.TimeUtils;
 
+import java.util.Date;
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
@@ -31,8 +33,21 @@ public class HomeFragmentAdapter extends BaseQuickAdapter<Article, BaseViewHolde
         User writer = article.getWriter();
         baseViewHolder.setText(R.id.tv_writer, writer.getUsername())
                 .setText(R.id.tv_breif_intro, article.getBriefIntro())
-                .setText(R.id.tv_title, article.getTitle());
-
+                .setText(R.id.tv_title, article.getTitle())
+                .setText(R.id.tv_time, TimeUtils.time2Now(new Date(article.getPublishTime())))
+                .setText(R.id.tv_collect_num, article.getCollectionNum() + "")
+                .setText(R.id.tv_comment_num, article.getCommentNum() + "");
+        if (article.isHasCollected()) {
+            Glide.with(mContext)
+                    .load(R.drawable.img_collect_selected)
+                    .crossFade()
+                    .into((ImageView) baseViewHolder.getView(R.id.iv_collect));
+        } else {
+            Glide.with(mContext)
+                    .load(R.drawable.img_collect_unselected)
+                    .crossFade()
+                    .into((ImageView) baseViewHolder.getView(R.id.iv_collect));
+        }
         Glide.with(mContext)
                 .load(GlobalConf.BASE_PIC_URL + writer.getHeadPic())
                 .placeholder(R.drawable.pic_default_user_head)

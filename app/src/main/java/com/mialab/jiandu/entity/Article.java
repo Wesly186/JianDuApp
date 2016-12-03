@@ -13,6 +13,9 @@ public class Article {
     private long publishTime;
     private String picUrl;
     private String articleUrl;
+    private int collectionNum;
+    private int commentNum;
+    private boolean hasCollected;
 
     public Article() {
 
@@ -80,5 +83,29 @@ public class Article {
 
     public void setArticleUrl(String articleUrl) {
         this.articleUrl = articleUrl;
+    }
+
+    public int getCollectionNum() {
+        return collectionNum;
+    }
+
+    public void setCollectionNum(int collectionNum) {
+        this.collectionNum = collectionNum;
+    }
+
+    public int getCommentNum() {
+        return commentNum;
+    }
+
+    public void setCommentNum(int commentNum) {
+        this.commentNum = commentNum;
+    }
+
+    public boolean isHasCollected() {
+        return hasCollected;
+    }
+
+    public void setHasCollected(boolean hasCollected) {
+        this.hasCollected = hasCollected;
     }
 }

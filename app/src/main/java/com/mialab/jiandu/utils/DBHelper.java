@@ -8,6 +8,8 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import com.mialab.jiandu.app.JianDuApplication;
+import com.mialab.jiandu.conf.GlobalConf;
 import com.mialab.jiandu.entity.User;
 
 import java.sql.SQLException;
@@ -19,12 +21,12 @@ import java.util.Map;
  */
 public class DBHelper extends OrmLiteSqliteOpenHelper {
 
-    private static final String TABLE_NAME = "jian_du.db";
+    private static final String TABLE_NAME = "jiandu.db";
     private static DBHelper instance;
     private Map<String, Dao> daos = new HashMap<String, Dao>();
 
     private DBHelper(Context context) {
-        super(context, TABLE_NAME, null, 1);
+        super(context, TABLE_NAME, null, 2);
     }
 
     /**
@@ -57,6 +59,9 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase database,
                           ConnectionSource connectionSource, int oldVersion, int newVersion) {
+        PrefUtils.setString(JianDuApplication.getContext(), GlobalConf.PHONE, "");
+        PrefUtils.setString(JianDuApplication.getContext(), GlobalConf.ACCESS_TOKEN, "");
+        PrefUtils.setString(JianDuApplication.getContext(), GlobalConf.REFRESH_TOKEN, "");
         try {
             TableUtils.dropTable(connectionSource, User.class, true);
             onCreate(database, connectionSource);

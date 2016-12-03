@@ -46,32 +46,74 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="标题"
-            android:textColor="@color/colorPrimary" />
+            android:text="标题(必填)"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp" />
 
         <EditText
+            android:id="@+id/et_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/dark_grey" />
+            android:hint="输入标题"
+            android:textColor="@color/dark_grey"
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="说明文字"
-            android:textColor="@color/colorPrimary" />
+            android:layout_marginTop="8dp"
+            android:text="说明文字（必填）"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp" />
 
         <EditText
+            android:id="@+id/et_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/dark_grey" />
+            android:hint="输入说明文字"
+            android:textColor="@color/dark_grey"
+            android:textSize="16sp" />
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btn_login"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="文章地址（必填）"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/et_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="http://..."
+            android:textColor="@color/dark_grey"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="文章配图"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/iv_pic"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/pic_add_img" />
+
+        <Button
+            android:id="@+id/btn_publish"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:layout_marginTop="24dp"
-            android:text="我要投稿" />
+            android:background="@drawable/btn_reload_bg_selector"
+            android:text="我要投稿"
+            android:textColor="@color/white" />
     </LinearLayout>
 
 </LinearLayout>

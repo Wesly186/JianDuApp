@@ -29,6 +29,7 @@ public class UserModel {
     private HttpSubscriber<User> updateProfileSubscribe;
     private HttpSubscriber<String> validationCodeSubscribe;
     private HttpSubscriber<String> registerSubscribe;
+    private HttpSubscriber<String> updatePassSubscribe;
 
     /**
      * 登陆获得token信息
@@ -56,9 +57,9 @@ public class UserModel {
     public void saveLoginInfo(LoginInfo loginInfo, Context context) {
         PrefUtils.setString(context, GlobalConf.ACCESS_TOKEN, loginInfo.getOauthToken().getAccessToken());
         PrefUtils.setString(context, GlobalConf.REFRESH_TOKEN, loginInfo.getOauthToken().getRefreshToken());
-        PrefUtils.setString(context, GlobalConf.PHONE, loginInfo.getUser().getPhone());
+        PrefUtils.setString(context, GlobalConf.PHONE, loginInfo.getUserRsp().getPhone());
         UserDao userInfoDao = new UserDao(context);
-        userInfoDao.add(loginInfo.getUser());
+        userInfoDao.add(loginInfo.getUserRsp());
     }
 
     /**
@@ -132,6 +133,10 @@ public class UserModel {
         return new UserDao(context).getByPhone(phone);
     }
 
+    public User getFromDB(Context context) {
+        return new UserDao(context).getUser();
+    }
+
     public void setoAuthSubscribe(HttpSubscriber<LoginInfo> oAuthSubscribe) {
         this.oAuthSubscribe = oAuthSubscribe;
     }
@@ -188,5 +193,23 @@ public class UserModel {
 
     public void setRegisterSubscribe(HttpSubscriber<String> registerSubscribe) {
         this.registerSubscribe = registerSubscribe;
+    }
+
+    public Subscription updatePassword(Context context, String phone, String oldPassword, String newPassword) {
+        Iuser iUser = RetrofitHelper.getProxy(Iuser.class, context);
+        Observable<BaseModel<String>> observable = iUser.updatePassword(phone, oldPassword, newPassword);
+        return observable.subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(updatePassSubscribe);
+    }
+
+    public void setUpdatePassSubscribe(HttpSubscriber<String> updatePassSubscribe) {
+        this.updatePassSubscribe = updatePassSubscribe;
+    }
+
+    public void updateUserInfoCache(Context context, User user) {
+        UserDao userDao = new UserDao(context);
+        userDao.update(user);
     }
 }

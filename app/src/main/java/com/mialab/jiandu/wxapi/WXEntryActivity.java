@@ -7,7 +7,7 @@ public class WXEntryActivity extends BaseWXEntryActivity {
 
     @Override
     protected String getAppId() {
+
         return GlobalConf.WECHAT_APPID;
     }
-
 }

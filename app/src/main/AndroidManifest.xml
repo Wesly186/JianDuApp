@@ -35,13 +35,13 @@
         <activity android:name=".view.activity.SettingActivity" />
         <activity android:name=".view.activity.SearchActivity" />
         <activity android:name=".view.activity.ArticleDetailActivity" />
-        <activity android:name=".view.activity.CommentsActivity" />
+        <activity
+            android:name=".view.activity.CommentsActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".view.activity.DiscussActivity" />
         <activity android:name=".view.activity.ContributionActivity" />
         <activity android:name=".view.activity.WeekHotActivity" />
-        <activity
-            android:name=".view.activity.ArticlePublishActivity"
-            android:theme="@style/AppTheme.Light" />
+        <activity android:name=".view.activity.ArticlePublishActivity" />
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -61,6 +61,7 @@
                 <data android:scheme="tencent1105848450" />
             </intent-filter>
         </activity>
+        <activity android:name=".view.activity.CollectionsActivity"></activity>
     </application>
 
 </manifest>

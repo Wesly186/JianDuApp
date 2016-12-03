@@ -50,6 +50,13 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     private NotifyFragment mNotifyFragment = new NotifyFragment();
     private UserCenterFragment mUserCenterFragment = new UserCenterFragment();
 
+    public static final int HOME_FRAGMENT = 0;
+    public static final int RANK_FRAGMENT = 1;
+    public static final int NOTIFY_FRAGMENT = 2;
+    public static final int USERCENTER_FRAGMENT = 3;
+
+    private int currentSelect;
+
     private long lastPressBackTime;
     private FragmentManager fragmentManager = getSupportFragmentManager();
     private NotificationManager notifyManager;
@@ -97,15 +104,19 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                 hideAllFragment(transaction);
                 switch (checkedId) {
                     case R.id.rb_home:
+                        currentSelect = HOME_FRAGMENT;
                         transaction.show(mHomeFragment);
                         break;
                     case R.id.rb_rank:
+                        currentSelect = RANK_FRAGMENT;
                         transaction.show(mRankFragment);
                         break;
                     case R.id.rb_notify:
+                        currentSelect = NOTIFY_FRAGMENT;
                         transaction.show(mNotifyFragment);
                         break;
                     case R.id.rb_usercenter:
+                        currentSelect = USERCENTER_FRAGMENT;
                         transaction.show(mUserCenterFragment);
                         break;
                 }
@@ -224,5 +235,9 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     protected void onDestroy() {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
+    }
+
+    public int getCurrentSelect() {
+        return currentSelect;
     }
 }

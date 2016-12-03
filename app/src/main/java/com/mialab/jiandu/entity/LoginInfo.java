@@ -5,15 +5,16 @@ package com.mialab.jiandu.entity;
  */
 
 public class LoginInfo {
-    private User user;
+
+    private User userRsp;
     private OauthToken oauthToken;
 
-    public User getUser() {
-        return user;
+    public User getUserRsp() {
+        return userRsp;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserRsp(User userRsp) {
+        this.userRsp = userRsp;
     }
 
     public OauthToken getOauthToken() {

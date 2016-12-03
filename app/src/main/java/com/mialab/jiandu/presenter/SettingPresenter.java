@@ -18,7 +18,7 @@ import okhttp3.Call;
  * Created by Wesly186 on 2016/11/12.
  */
 
-public class SettingPresenter {
+public class SettingPresenter extends BasePresenter {
     private Context context;
     private SettingView settingView;
     private UserModel userModel;
@@ -85,5 +85,29 @@ public class SettingPresenter {
 
     public void loginOut() {
         userModel.eraseLoginInfo(context);
+    }
+
+    public void updatePassword(String oldPassword, String newpassword) {
+        if (oldPassword.equals(newpassword)) {
+            settingView.illegalInput("新密码和旧密码不能相同！");
+            return;
+        }
+        userModel.setUpdatePassSubscribe(new HttpSubscriber<String>() {
+            @Override
+            public void onSuccess(BaseModel<String> response) {
+                settingView.updatePassSuccess();
+            }
+
+            @Override
+            public void onFailure(String message) {
+                settingView.updatePassFailure(message);
+            }
+
+            @Override
+            public void onBadNetwork() {
+                settingView.badNetWork();
+            }
+        });
+        addSubscription(userModel.updatePassword(context, userModel.getFromDB(context).getPhone(), oldPassword, newpassword));
     }
 }

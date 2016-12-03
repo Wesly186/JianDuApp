@@ -11,10 +11,11 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.bilibili.socialize.share.core.BiliShare;
@@ -29,7 +30,9 @@ import com.mialab.jiandu.R;
 import com.mialab.jiandu.conf.GlobalConf;
 import com.mialab.jiandu.entity.Article;
 import com.mialab.jiandu.entity.User;
+import com.mialab.jiandu.event.UserInfoUpdate;
 import com.mialab.jiandu.presenter.ArticleDetailPresenter;
+import com.mialab.jiandu.utils.AuthenticateUtils;
 import com.mialab.jiandu.utils.StatusBarUtil;
 import com.mialab.jiandu.utils.ToastUtils;
 import com.mialab.jiandu.utils.share.ShareHelper;
@@ -43,6 +46,8 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
+import static com.mialab.jiandu.R.id.btn_collect;
 
 public class ArticleDetailActivity extends MvpActivity<ArticleDetailPresenter> implements ArticleDetailView, View.OnClickListener,
         ShareHelper.Callback, PopupMenu.OnMenuItemClickListener {
@@ -65,15 +70,17 @@ public class ArticleDetailActivity extends MvpActivity<ArticleDetailPresenter> i
     WebView webView;
     @BindView(R.id.tv_check_comment)
     TextView tvCheckComment;
-    @BindView(R.id.rb_like)
-    RadioButton rbLike;
+    @BindView(btn_collect)
+    Button btnCollect;
+    @BindView(R.id.ll_bottom)
+    LinearLayout llBottom;
 
     private Article article;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
+        super.onCreate(savedInstanceState);
         initView();
         initData();
     }
@@ -106,12 +113,12 @@ public class ArticleDetailActivity extends MvpActivity<ArticleDetailPresenter> i
         ibSearch.setOnClickListener(this);
         ibMenu.setOnClickListener(this);
         tvCheckComment.setOnClickListener(this);
+        btnCollect.setOnClickListener(this);
     }
 
     private void showPopupMenu(View view) {
         // View当前PopupMenu显示的相对View的位置
         PopupMenu popupMenu = new PopupMenu(this, view, Gravity.END);
-
         // menu布局
         popupMenu.getMenuInflater().inflate(R.menu.new_detail_menu, popupMenu.getMenu());
         // menu的item点击事件
@@ -128,40 +135,13 @@ public class ArticleDetailActivity extends MvpActivity<ArticleDetailPresenter> i
     }
 
     @Override
-    public void praiseNewsFailed(String message) {
-
-    }
-
-    @Override
-    public void onBadNetWork() {
-        ToastUtils.showToast(this, "网络错误");
-
-    }
-
-    @Override
-    public void praiseNewsStart() {
-
-    }
-
-    @Override
-    public void praiseNewsSuccess(Article data) {
-
-    }
-
-    @Override
-    public void needLogin() {
-        rbLike.setChecked(false);
-        startActivity(new Intent(this, LoginActivity.class));
-    }
-
-    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ib_back:
                 finish();
                 break;
             case R.id.ib_share:
-                mvpPresenter.ShareNews(null, false);
+                mvpPresenter.ShareArticle(null, false);
                 break;
             case R.id.ib_menu:
                 showPopupMenu(menuRoot);
@@ -169,6 +149,21 @@ public class ArticleDetailActivity extends MvpActivity<ArticleDetailPresenter> i
             case R.id.tv_check_comment:
                 Intent intent = new Intent(this, CommentsActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.btn_collect:
+                if (!AuthenticateUtils.hasLogin()) {
+                    startActivity(new Intent(this, LoginActivity.class));
+                    return;
+                }
+                if (!article.isHasCollected()) {
+                    btnCollect.setSelected(true);
+                    btnCollect.setText((article.getCollectionNum() + 1) + "");
+                    mvpPresenter.collectArticle(article.getId(), true);
+                } else {
+                    btnCollect.setSelected(false);
+                    btnCollect.setText((article.getCollectionNum() - 1) + "");
+                    mvpPresenter.collectArticle(article.getId(), false);
+                }
                 break;
         }
     }
@@ -191,7 +186,6 @@ public class ArticleDetailActivity extends MvpActivity<ArticleDetailPresenter> i
 
     @Override
     public void onShareStart(ShareHelper helper) {
-
     }
 
     @Override
@@ -205,7 +199,6 @@ public class ArticleDetailActivity extends MvpActivity<ArticleDetailPresenter> i
 
     @Override
     public void onDismiss(ShareHelper helper) {
-
     }
 
     @Override
@@ -250,10 +243,51 @@ public class ArticleDetailActivity extends MvpActivity<ArticleDetailPresenter> i
         return true;
     }
 
+    @Override
+    public void disableInput() {
+        btnCollect.setEnabled(false);
+    }
+
+    @Override
+    public void collectSuccess(boolean collect) {
+        if (collect) {
+            article.setHasCollected(true);
+            article.setCollectionNum(article.getCollectionNum() + 1);
+            ToastUtils.showToast(this, "收藏成功");
+        } else {
+            article.setHasCollected(false);
+            article.setCollectionNum(article.getCollectionNum() - 1);
+            ToastUtils.showToast(this, "已取消收藏");
+        }
+
+        btnCollect.setEnabled(true);
+        btnCollect.setSelected(article.isHasCollected());
+        btnCollect.setText(article.getCollectionNum() + "");
+    }
+
+    @Override
+    public void collectFailure(String message) {
+        btnCollect.setEnabled(true);
+        btnCollect.setSelected(article.isHasCollected());
+        btnCollect.setText(article.getCollectionNum() + "");
+        ToastUtils.showToast(this, message);
+    }
+
+    @Override
+    public void onBadNetWork() {
+        btnCollect.setEnabled(true);
+        btnCollect.setSelected(article.isHasCollected());
+        btnCollect.setText(article.getCollectionNum() + "");
+        ToastUtils.showToast(this, "网络错误");
+    }
+
     @Subscribe(threadMode = ThreadMode.POSTING)
     public void handleEvent(Article article) {
+        this.article = article;
+        btnCollect.setSelected(article.isHasCollected());
+        btnCollect.setText(article.getCollectionNum() + "");
         User writer = article.getWriter();
-        mvpPresenter.getNewsDetail(webView, article);
+        mvpPresenter.showArticleDetail(webView, article);
         tvName.setText(article.getWriter().getUsername());
         Glide.with(this)
                 .load(GlobalConf.BASE_PIC_URL + writer.getHeadPic())
@@ -262,7 +296,14 @@ public class ArticleDetailActivity extends MvpActivity<ArticleDetailPresenter> i
                 .bitmapTransform(new CenterCrop(this), new CropCircleTransformation(this))
                 .crossFade()
                 .into(ivHead);
-        this.article = article;
+        llBottom.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected void onStop() {
+        EventBus.getDefault().post(article);
+        EventBus.getDefault().post(new UserInfoUpdate());
+        super.onStop();
     }
 
     @Override

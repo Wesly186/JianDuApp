@@ -146,7 +146,6 @@ public class UserProfileActivity extends MvpActivity<UserProfilePresenter> imple
                     @Override
                     public void onClick(View v) {
                         mvpPresenter.requestCameraPermission();
-
                         dialogChoice.dismiss();
                     }
                 });

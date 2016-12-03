@@ -164,6 +164,5 @@ public class ProxyHandler implements InvocationHandler {
      */
     private void onRefreshTokenExpire() {
         mContext.startActivity(new Intent(mContext, LoginActivity.class));
-        //JianDuApplication.finishAll();
     }
 }

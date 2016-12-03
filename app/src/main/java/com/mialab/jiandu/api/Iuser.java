@@ -44,4 +44,10 @@ public interface Iuser {
     @POST("user/register")
     Observable<BaseModel<String>> register(@Field("phone") String phone, @Field("password") String password,
                                            @Field("validationCode") int validationCode);
+
+    @FormUrlEncoded
+    @POST("user/updatePassword")
+    Observable<BaseModel<String>> updatePassword(@Field("phone") String phone, @Field("oldPassword") String oldPassword,
+                                                 @Field("newPassword") String newPassword);
+
 }

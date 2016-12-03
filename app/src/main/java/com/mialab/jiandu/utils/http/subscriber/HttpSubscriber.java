@@ -1,5 +1,7 @@
 package com.mialab.jiandu.utils.http.subscriber;
 
+import android.util.Log;
+
 import com.mialab.jiandu.entity.BaseModel;
 import com.mialab.jiandu.utils.http.exception.TokenInvalidException;
 
@@ -23,6 +25,8 @@ public abstract class HttpSubscriber<T> extends Subscriber<BaseModel<T>> {
 
     @Override
     public void onError(Throwable e) {
+        Log.e("HttpSubscriber:", e.getMessage());
+        e.printStackTrace();
         if (e instanceof IOException) {
             onBadNetwork();
         } else if (e instanceof HttpException) {
@@ -38,7 +42,6 @@ public abstract class HttpSubscriber<T> extends Subscriber<BaseModel<T>> {
             } else {
                 onFailure("未知错误");
             }
-
         }
     }
 

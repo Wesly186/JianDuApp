@@ -14,4 +14,12 @@ public interface SettingView {
     void downloadComplete();
 
     void updateFailed(String message);
+
+    void updatePassSuccess();
+
+    void updatePassFailure(String message);
+
+    void badNetWork();
+
+    void illegalInput(String message);
 }

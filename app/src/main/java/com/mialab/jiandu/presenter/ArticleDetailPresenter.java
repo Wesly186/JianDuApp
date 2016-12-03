@@ -10,7 +10,11 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.mialab.jiandu.entity.Article;
-import com.mialab.jiandu.model.ArticleModel;
+import com.mialab.jiandu.entity.BaseModel;
+import com.mialab.jiandu.entity.User;
+import com.mialab.jiandu.model.ArticleDetailModel;
+import com.mialab.jiandu.model.UserModel;
+import com.mialab.jiandu.utils.http.subscriber.HttpSubscriber;
 import com.mialab.jiandu.utils.share.ShareHelper;
 import com.mialab.jiandu.view.activity.ArticleDetailView;
 
@@ -23,12 +27,14 @@ public class ArticleDetailPresenter extends BasePresenter {
     private Context context;
     private ShareHelper mShare;
     private ArticleDetailView articleDetailView;
-    private ArticleModel articleModel;
+    private ArticleDetailModel articleDetailModel;
+    private UserModel userModel;
 
     public ArticleDetailPresenter(Context context, ArticleDetailView articleDetailView) {
         this.context = context;
         this.articleDetailView = articleDetailView;
-        articleModel = new ArticleModel();
+        articleDetailModel = new ArticleDetailModel();
+        userModel = new UserModel();
     }
 
     /**
@@ -36,7 +42,7 @@ public class ArticleDetailPresenter extends BasePresenter {
      *
      * @param webView
      */
-    public void getNewsDetail(WebView webView, Article article) {
+    public void showArticleDetail(WebView webView, Article article) {
         WebSettings settings = webView.getSettings();
         //JS和缓存
         settings.setJavaScriptEnabled(true);
@@ -70,7 +76,7 @@ public class ArticleDetailPresenter extends BasePresenter {
      * @param anchor
      * @param isWindowFullScreen
      */
-    public void ShareNews(@Nullable View anchor, boolean isWindowFullScreen) {
+    public void ShareArticle(@Nullable View anchor, boolean isWindowFullScreen) {
         if (mShare == null) {
             mShare = ShareHelper.instance((AppCompatActivity) (context), (ShareHelper.Callback) articleDetailView);
         }
@@ -91,5 +97,38 @@ public class ArticleDetailPresenter extends BasePresenter {
             mShare.reset();
             mShare = null;
         }
+    }
+
+    public void collectArticle(int id, final boolean collect) {
+        articleDetailModel.setCollectArticleSubscribe(new HttpSubscriber<String>() {
+            @Override
+            public void onStart() {
+                articleDetailView.disableInput();
+            }
+
+            @Override
+            public void onSuccess(BaseModel<String> response) {
+                User user = userModel.getFromDB(context);
+                if (collect) {
+                    user.setCollectionNum(user.getCollectionNum() + 1);
+                    userModel.updateUserInfoCache(context, user);
+                } else {
+                    user.setCollectionNum(user.getCollectionNum() - 1);
+                    userModel.updateUserInfoCache(context, user);
+                }
+                articleDetailView.collectSuccess(collect);
+            }
+
+            @Override
+            public void onFailure(String message) {
+                articleDetailView.collectFailure(message);
+            }
+
+            @Override
+            public void onBadNetwork() {
+                articleDetailView.onBadNetWork();
+            }
+        });
+        addSubscription(articleDetailModel.collectArticle(context, id, collect));
     }
 }

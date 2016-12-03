@@ -66,4 +66,14 @@ public class UserDao {
             e.printStackTrace();
         }
     }
+
+    public User getUser() {
+        User user = null;
+        try {
+            user = userDaoOpe.queryForAll().get(0);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
 }

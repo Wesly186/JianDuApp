@@ -5,11 +5,26 @@
     android:background="@color/page_bg"
     android:orientation="vertical">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_banner"
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:background="#f7f7f7" />
+        android:layout_height="wrap_content">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_banner"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="#f7f7f7" />
+
+        <LinearLayout
+            android:id="@+id/ll_dot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/vp_banner"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal" />
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

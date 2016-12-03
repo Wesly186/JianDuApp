@@ -12,22 +12,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.mialab.jiandu.R;
+import com.mialab.jiandu.conf.GlobalConf;
 import com.mialab.jiandu.entity.Article;
 import com.mialab.jiandu.entity.Banner;
 import com.mialab.jiandu.entity.User;
 import com.mialab.jiandu.presenter.RankPresenter;
+import com.mialab.jiandu.utils.DensityUtils;
+import com.mialab.jiandu.utils.ToastUtils;
+import com.mialab.jiandu.view.activity.ArticleDetailActivity;
 import com.mialab.jiandu.view.activity.ContributionActivity;
 import com.mialab.jiandu.view.activity.DiscussActivity;
+import com.mialab.jiandu.view.activity.MainActivity;
 import com.mialab.jiandu.view.activity.SearchActivity;
 import com.mialab.jiandu.view.activity.WeekHotActivity;
 import com.mialab.jiandu.view.adapter.BannerAdapter;
 import com.mialab.jiandu.view.adapter.RankFragmentAdapter;
 import com.mialab.jiandu.view.base.MvpFragment;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,12 +53,15 @@ public class RankFragment extends MvpFragment<RankPresenter> implements RankView
     LinearLayout llContribution;
     LinearLayout llWeekHot;
 
+    LinearLayout llDot;
+
     private BannerAdapter bannerAdapter;
     private RankFragmentAdapter mAdapter;
     private List<Banner> banners = new ArrayList<>();
     private List<Article> articles = new ArrayList<>();
 
-    private static final int PAGE_SIZE = 15;
+    private int clickPosition = 0;
+    private int mCurrentPage = 0;
 
     private Handler handler = new Handler() {
         @Override
@@ -75,16 +84,22 @@ public class RankFragment extends MvpFragment<RankPresenter> implements RankView
 
     @Override
     protected void initView() {
-        //refreshLayout.setRefreshing(true);
+        refreshLayout.setRefreshing(true);
         refreshLayout.setColorSchemeResources(R.color.orange, R.color.red);
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mAdapter = new RankFragmentAdapter(R.layout.recycler_item_article_rank, articles);
         mAdapter.openLoadAnimation();
 
-        mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
+        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
-            public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Toast.makeText(mContext, "" + Integer.toString(position), Toast.LENGTH_LONG).show();
+            public void onLoadMoreRequested() {
+                mRecyclerView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mvpPresenter.getArticleSynthetically(mCurrentPage + 1);
+                    }
+                }, 800);
             }
         });
 
@@ -95,6 +110,7 @@ public class RankFragment extends MvpFragment<RankPresenter> implements RankView
         llDiscuss = (LinearLayout) headView.findViewById(R.id.ll_discuss);
         llContribution = (LinearLayout) headView.findViewById(R.id.ll_contribution);
         llWeekHot = (LinearLayout) headView.findViewById(R.id.ll_week_hot);
+        llDot = (LinearLayout) headView.findViewById(R.id.ll_dot);
         bannerAdapter = new BannerAdapter(mContext, banners);
     }
 
@@ -108,18 +124,76 @@ public class RankFragment extends MvpFragment<RankPresenter> implements RankView
 
         vpBanner.setAdapter(bannerAdapter);
         mRecyclerView.setAdapter(mAdapter);
+        vpBanner.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-        for (int i = 0; i < 40; i++) {
-            articles.add(new Article(i, "JavaScript闯关记", "JavaScript闯关记", new User(), 265356436543646l));
-        }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                updateDot();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
+                clickPosition = position;
+                startActivity(new Intent(mContext, ArticleDetailActivity.class));
+            }
+        });
+
+        mvpPresenter.getArticleSynthetically(0);
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mvpPresenter.getArticleSynthetically(0);
+            }
+        });
+
 
         banners.add(new Banner(1, "JavaScript闯关记", new User(), 265356436543646l, "120495-11f3030ace9594ae.jpg", "http://dev.qq.com/topic/57bec216d81f2415515d3e9c"));
         banners.add(new Banner(2, "JavaScript闯关记", new User(), 265356436543646l, "120495-97b57d0cabc2a9ff.jpg", "http://dev.qq.com/topic/57bec216d81f2415515d3e9c"));
         banners.add(new Banner(3, "JavaScript闯关记", new User(), 265356436543646l, "120495-2977b17c9a0708a0.png", "http://dev.qq.com/topic/57bec216d81f2415515d3e9c"));
 
         bannerAdapter.notifyDataSetChanged();
-        mAdapter.notifyDataSetChanged();
         handler.sendEmptyMessageDelayed(0, 4000);
+        initDots();
+        updateDot();
+    }
+
+    /**
+     * 初始化dot
+     */
+    private void initDots() {
+        llDot.removeAllViews();
+        for (int i = 0; i < banners.size(); i++) {
+            View view = new View(mContext);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(DensityUtils.dp2px(mContext, 7), DensityUtils.dp2px(mContext, 7));
+            if (i != 0) {
+                params.leftMargin = DensityUtils.dp2px(mContext, 7);
+            }
+            view.setLayoutParams(params);
+            view.setBackgroundResource(R.drawable.dot_bg_selector);
+            llDot.addView(view);
+        }
+    }
+
+    private void updateDot() {
+        int currentPage = vpBanner.getCurrentItem() % banners.size();
+        for (int i = 0; i < llDot.getChildCount(); i++) {
+            if (i == currentPage) {
+                llDot.getChildAt(i).setEnabled(true);
+            } else {
+                llDot.getChildAt(i).setEnabled(false);
+            }
+        }
     }
 
     @Override
@@ -138,6 +212,49 @@ public class RankFragment extends MvpFragment<RankPresenter> implements RankView
                 startActivity(new Intent(mContext, WeekHotActivity.class));
                 break;
         }
+    }
+
+    @Override
+    public void loadSuccess(int currentPage, List<Article> articles) {
+        refreshLayout.setRefreshing(false);
+        if (currentPage == 0) {
+            this.articles.clear();
+            this.articles.addAll(articles);
+            this.mCurrentPage = 0;
+        } else {
+            this.mCurrentPage++;
+            this.articles.addAll(articles);
+        }
+        if (articles.size() < GlobalConf.PAGE_SIZE) {
+            mAdapter.loadMoreEnd();
+        } else {
+            mAdapter.loadMoreComplete();
+        }
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void loadFailure(String message) {
+        refreshLayout.setRefreshing(false);
+        mAdapter.loadMoreFail();
+        ToastUtils.showToast(mContext, message);
+    }
+
+    @Override
+    public void onBadNetWork() {
+        mAdapter.loadMoreFail();
+        refreshLayout.setRefreshing(false);
+        ToastUtils.showToast(mContext, "网络异常");
+    }
+
+    @Override
+    public void onStop() {
+        if (clickPosition < articles.size()) {
+            if (((MainActivity) mContext).getCurrentSelect() == MainActivity.RANK_FRAGMENT) {
+                EventBus.getDefault().post(articles.get(clickPosition));
+            }
+        }
+        super.onStop();
     }
 
     @Override

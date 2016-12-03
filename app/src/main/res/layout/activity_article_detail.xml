@@ -90,7 +90,9 @@
         android:id="@+id/ll_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:visibility="invisible">
 
         <TextView
             android:id="@+id/tv_check_comment"
@@ -104,17 +106,17 @@
             android:text="查看评论"
             android:textColor="@color/dark_grey" />
 
-        <RadioButton
-            android:id="@+id/rb_like"
+        <Button
+            android:id="@+id/btn_collect"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:background="@color/white"
-            android:button="@null"
-            android:drawableLeft="@drawable/btn_like_selector"
+            android:background="@null"
+            android:drawableStart="@drawable/btn_like_selector"
             android:gravity="center"
-            android:paddingLeft="10dp"
+            android:paddingStart="10dp"
             android:text="0"
-            android:textColor="@color/dark_grey" />
+            android:textColor="@color/dark_grey"
+            android:textSize="15dp" />
     </LinearLayout>
 </LinearLayout>

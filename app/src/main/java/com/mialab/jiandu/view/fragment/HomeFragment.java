@@ -12,10 +12,12 @@ import android.widget.RelativeLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.mialab.jiandu.R;
+import com.mialab.jiandu.conf.GlobalConf;
 import com.mialab.jiandu.entity.Article;
 import com.mialab.jiandu.presenter.HomeArticlePresenter;
 import com.mialab.jiandu.utils.ToastUtils;
 import com.mialab.jiandu.view.activity.ArticleDetailActivity;
+import com.mialab.jiandu.view.activity.MainActivity;
 import com.mialab.jiandu.view.adapter.HomeFragmentAdapter;
 import com.mialab.jiandu.view.base.MvpFragment;
 
@@ -77,7 +79,6 @@ public class HomeFragment extends MvpFragment<HomeArticlePresenter> implements H
                 }, 800);
             }
         });
-
     }
 
     @Override
@@ -101,8 +102,6 @@ public class HomeFragment extends MvpFragment<HomeArticlePresenter> implements H
             }
         });
         btnReload.setOnClickListener(this);
-
-
     }
 
     @Override
@@ -113,40 +112,33 @@ public class HomeFragment extends MvpFragment<HomeArticlePresenter> implements H
         if (currentPage == 0) {
             this.articles.clear();
             this.articles.addAll(articles);
-            mAdapter.notifyDataSetChanged();
-            //很无语
-            mAdapter.loadMoreComplete();
             this.currentPage = 0;
         } else {
             this.currentPage++;
-            mAdapter.loadMoreComplete();
-            mAdapter.addData(articles);
-            if (articles.size() == 0) {
-                mAdapter.loadMoreEnd();
-            }
+            this.articles.addAll(articles);
         }
+        if (articles.size() < GlobalConf.PAGE_SIZE) {
+            mAdapter.loadMoreEnd();
+        } else {
+            mAdapter.loadMoreComplete();
+        }
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void loadFailure(String message) {
         refreshLayout.setRefreshing(false);
+        mAdapter.loadMoreFail();
         ToastUtils.showToast(mContext, message);
     }
 
     @Override
     public void onBadNetWork() {
+        mAdapter.loadMoreFail();
         refreshLayout.setRefreshing(false);
         rlBadNetwork.setVisibility(View.VISIBLE);
         refreshLayout.setVisibility(View.INVISIBLE);
         ToastUtils.showToast(mContext, "网络异常");
-    }
-
-    @Override
-    public void onStop() {
-        if (clickPosition < articles.size()) {
-            EventBus.getDefault().post(articles.get(clickPosition));
-        }
-        super.onStop();
     }
 
     @Override
@@ -156,5 +148,15 @@ public class HomeFragment extends MvpFragment<HomeArticlePresenter> implements H
                 mvpPresenter.getArticleByTime(0);
                 break;
         }
+    }
+
+    @Override
+    public void onStop() {
+        if (clickPosition < articles.size()) {
+            if (((MainActivity) mContext).getCurrentSelect() == MainActivity.HOME_FRAGMENT) {
+                EventBus.getDefault().post(articles.get(clickPosition));
+            }
+        }
+        super.onStop();
     }
 }

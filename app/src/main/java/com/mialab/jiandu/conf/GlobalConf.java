@@ -10,6 +10,8 @@ public class GlobalConf {
     public static final String BASE_URL = "http://115.159.23.39/JianDu/";
     public static final String BASE_PIC_URL = "http://115.159.23.39/pic/";
 
+    public static final int PAGE_SIZE = 12;
+
     //bilibilishare-appId
     public static final String QQ_APPID = "1105848450";
     public static final String QQ_APPKEY = "qNjJS7Kx52H2JNmY";
@@ -24,6 +26,7 @@ public class GlobalConf {
     public static final String REFRESH_TOKEN = "refresh_token";
     public static final String PHONE = "phone";
     public static final String AUTO_UPDATE_SET = "auto_update_set";
+    public static final String COMMENTS_PRAISE = "";
 
     public static void configPlatformsIfNeed() {
         if (SharePlatformConfig.hasAlreadyConfig()) {

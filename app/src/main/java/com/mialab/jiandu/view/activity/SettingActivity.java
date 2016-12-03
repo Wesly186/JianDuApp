@@ -4,26 +4,33 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.mialab.jiandu.R;
 import com.mialab.jiandu.app.JianDuApplication;
+import com.mialab.jiandu.conf.GlobalConf;
 import com.mialab.jiandu.entity.AppVersion;
 import com.mialab.jiandu.presenter.SettingPresenter;
 import com.mialab.jiandu.utils.EditDialogBuilder;
+import com.mialab.jiandu.utils.PrefUtils;
 import com.mialab.jiandu.utils.StatusBarUtil;
 import com.mialab.jiandu.utils.ToastUtils;
-import com.mialab.jiandu.view.base.BaseActivity;
+import com.mialab.jiandu.view.base.MvpActivity;
 
 import butterknife.BindView;
 
-public class SettingActivity extends BaseActivity implements View.OnClickListener, SettingView {
+public class SettingActivity extends MvpActivity<SettingPresenter> implements View.OnClickListener, SettingView {
 
     @BindView(R.id.ib_back)
     ImageButton ibBavk;
+    @BindView(R.id.rl_update_password)
+    RelativeLayout rlUpdatePassword;
     @BindView(R.id.rl_star)
     RelativeLayout rlStar;
     @BindView(R.id.rl_feedback)
@@ -31,13 +38,16 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     @BindView(R.id.rl_login_out)
     RelativeLayout rlLoginOut;
 
-    private SettingPresenter settingPresenter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
         initData();
+    }
+
+    @Override
+    protected SettingPresenter initPresenter() {
+        return new SettingPresenter(this, this);
     }
 
     @Override
@@ -60,9 +70,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void initData() {
-        settingPresenter = new SettingPresenter(this, this);
-
         ibBavk.setOnClickListener(this);
+        rlUpdatePassword.setOnClickListener(this);
         rlStar.setOnClickListener(this);
         rlFeedBack.setOnClickListener(this);
         rlLoginOut.setOnClickListener(this);
@@ -73,6 +82,35 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         switch (view.getId()) {
             case R.id.ib_back:
                 finish();
+                break;
+            case R.id.rl_update_password:
+                if (!hasLogin()) {
+                    startActivity(new Intent(this, LoginActivity.class));
+                    return;
+                }
+                View dialogView = View.inflate(this, R.layout.dialog_password, null);
+                final EditText etOldPassword = (EditText) dialogView.findViewById(R.id.et_old_password);
+                final EditText etNewPassword = (EditText) dialogView.findViewById(R.id.et_new_password);
+                TextView btnConfirm = (TextView) dialogView.findViewById(R.id.btn_confirm);
+                TextView btnCancel = (TextView) dialogView.findViewById(R.id.btn_cancel);
+                AlertDialog.Builder builderPassword = new AlertDialog.Builder(this);
+                builderPassword.setView(dialogView);
+                final AlertDialog dialogChoice = builderPassword.create();
+
+                btnConfirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mvpPresenter.updatePassword(etOldPassword.getText().toString(), etNewPassword.getText().toString());
+                        dialogChoice.dismiss();
+                    }
+                });
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogChoice.dismiss();
+                    }
+                });
+                dialogChoice.show();
                 break;
             case R.id.rl_star:
                 try {
@@ -98,11 +136,16 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 }).build().show();
                 break;
             case R.id.rl_login_out:
-                settingPresenter.loginOut();
+                mvpPresenter.loginOut();
                 JianDuApplication.finishAll();
                 startActivity(new Intent(SettingActivity.this, LoginActivity.class));
                 break;
         }
+    }
+
+    private boolean hasLogin() {
+        String accessToken = PrefUtils.getString(this, GlobalConf.ACCESS_TOKEN, "");
+        return !TextUtils.isEmpty(accessToken);
     }
 
     @Override
@@ -122,6 +165,26 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void updateFailed(String message) {
+        ToastUtils.showToast(this, message);
+    }
 
+    @Override
+    public void updatePassSuccess() {
+        ToastUtils.showToast(this, "修改成功！");
+    }
+
+    @Override
+    public void updatePassFailure(String message) {
+        ToastUtils.showToast(this, message);
+    }
+
+    @Override
+    public void badNetWork() {
+        ToastUtils.showToast(this, "网络异常，请稍后重试！");
+    }
+
+    @Override
+    public void illegalInput(String message) {
+        ToastUtils.showToast(this, message);
     }
 }

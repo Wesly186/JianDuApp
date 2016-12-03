@@ -19,6 +19,7 @@ import com.mialab.jiandu.event.UserInfoUpdate;
 import com.mialab.jiandu.presenter.UserCenterPresenter;
 import com.mialab.jiandu.utils.PrefUtils;
 import com.mialab.jiandu.view.activity.ArticlePublishActivity;
+import com.mialab.jiandu.view.activity.CollectionsActivity;
 import com.mialab.jiandu.view.activity.LoginActivity;
 import com.mialab.jiandu.view.activity.SettingActivity;
 import com.mialab.jiandu.view.activity.UserProfileActivity;
@@ -38,6 +39,14 @@ public class UserCenterFragment extends BaseFragment implements UserCenterView, 
 
     @BindView(R.id.rl_user_profile)
     RelativeLayout rlUserProfile;
+    @BindView(R.id.rl_collections)
+    RelativeLayout rlCollections;
+    @BindView(R.id.rl_reads)
+    RelativeLayout rlReads;
+    @BindView(R.id.tv_collection_num)
+    TextView tvCollectionNum;
+    @BindView(R.id.tv_read_num)
+    TextView tvReadNum;
     @BindView(R.id.rl_contributions)
     RelativeLayout rlContributions;
     @BindView(R.id.rl_settings)
@@ -80,12 +89,16 @@ public class UserCenterFragment extends BaseFragment implements UserCenterView, 
                     .bitmapTransform(new CenterCrop(mContext), new CropCircleTransformation(mContext))
                     .crossFade()
                     .into(ivHead);
+            tvCollectionNum.setText(user.getCollectionNum() + "篇");
+            tvReadNum.setText(user.getReadNum() + "篇");
         }
     }
 
     @Override
     public void initData() {
         rlUserProfile.setOnClickListener(this);
+        rlCollections.setOnClickListener(this);
+        rlReads.setOnClickListener(this);
         rlContributions.setOnClickListener(this);
         rlSettings.setOnClickListener(this);
     }
@@ -99,6 +112,20 @@ public class UserCenterFragment extends BaseFragment implements UserCenterView, 
                     return;
                 }
                 startActivity(new Intent(mContext, UserProfileActivity.class));
+                break;
+            case R.id.rl_collections:
+                if (!hasLogin()) {
+                    startActivity(new Intent(mContext, LoginActivity.class));
+                    return;
+                }
+                startActivity(new Intent(mContext, CollectionsActivity.class));
+                break;
+            case R.id.rl_reads:
+                if (!hasLogin()) {
+                    startActivity(new Intent(mContext, LoginActivity.class));
+                    return;
+                }
+                //startActivity(new Intent(mContext, CollectionsActivity.class));
                 break;
             case R.id.rl_contributions:
                 if (!hasLogin()) {
