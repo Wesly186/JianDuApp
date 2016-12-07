@@ -3,6 +3,7 @@ package com.mialab.jiandu.model;
 import android.content.Context;
 
 import com.mialab.jiandu.api.IArticle;
+import com.mialab.jiandu.api.IBanner;
 import com.mialab.jiandu.conf.GlobalConf;
 import com.mialab.jiandu.entity.Article;
 import com.mialab.jiandu.entity.BaseModel;
@@ -32,6 +33,27 @@ public class ArticleModel {
     private HttpSubscriber<String> publishArticleSubscriber;
     private HttpSubscriber<List<Article>> articleWeekHotSubscriber;
     private HttpSubscriber<List<Article>> articleCollectionSubscriber;
+    private HttpSubscriber<List<Article>> getBannersSubscriber;
+
+    /**
+     * 获取banner列表
+     *
+     * @param context
+     * @return
+     */
+    public Subscription getBanners(Context context) {
+
+        IBanner iBanner = RetrofitHelper.getProxy(IBanner.class, context);
+        Observable<BaseModel<List<Article>>> observable = iBanner.getBanners(PrefUtils.getString(context, GlobalConf.ACCESS_TOKEN, ""));
+        return observable.subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getBannersSubscriber);
+    }
+
+    public void setGetBannersSubscriber(HttpSubscriber<List<Article>> getBannersSubscriber) {
+        this.getBannersSubscriber = getBannersSubscriber;
+    }
 
     /**
      * 时间顺序
@@ -117,6 +139,27 @@ public class ArticleModel {
     }
 
     public void setArticleCollectionSubscriber(HttpSubscriber<List<Article>> articleCollectionSubscriber) {
+        this.articleCollectionSubscriber = articleCollectionSubscriber;
+    }
+
+    /**
+     * 我的阅历
+     *
+     * @param context
+     * @param currentPage
+     * @return
+     */
+    public Subscription getArticleReads(Context context, int currentPage) {
+        IArticle iArticle = RetrofitHelper.getProxy(IArticle.class, context);
+        Observable<BaseModel<List<Article>>> observable = iArticle.getArticleReads(PrefUtils.getString(context, GlobalConf.ACCESS_TOKEN, ""), currentPage);
+        Subscription subscription = observable.subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(articleCollectionSubscriber);
+        return subscription;
+    }
+
+    public void getArticleReads(HttpSubscriber<List<Article>> articleCollectionSubscriber) {
         this.articleCollectionSubscriber = articleCollectionSubscriber;
     }
 

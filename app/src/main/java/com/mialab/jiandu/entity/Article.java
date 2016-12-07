@@ -13,21 +13,10 @@ public class Article {
     private long publishTime;
     private String picUrl;
     private String articleUrl;
+    private boolean isBanner;
     private int collectionNum;
     private int commentNum;
     private boolean hasCollected;
-
-    public Article() {
-
-    }
-
-    public Article(int id, String title, String briefIntro, User writer, long publishTime) {
-        this.id = id;
-        this.title = title;
-        this.briefIntro = briefIntro;
-        this.writer = writer;
-        this.publishTime = publishTime;
-    }
 
     public int getId() {
         return id;
@@ -107,5 +96,13 @@ public class Article {
 
     public void setHasCollected(boolean hasCollected) {
         this.hasCollected = hasCollected;
+    }
+
+    public boolean isBanner() {
+        return isBanner;
+    }
+
+    public void setBanner(boolean banner) {
+        isBanner = banner;
     }
 }

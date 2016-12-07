@@ -49,4 +49,15 @@ public interface IArticleDetail {
     @POST("article/collectArticle")
     Observable<BaseModel<String>> collectArticle(@Field("accessToken") String accessToken, @Field("articleId") int articleId,
                                                  @Field("collect") boolean collect);
+
+    /**
+     * 添加到已经阅读的列表
+     *
+     * @param accessToken
+     * @param articleId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("article/add2Read")
+    Observable<BaseModel<String>> add2Read(@Field("accessToken") String accessToken, @Field("articleId") int articleId);
 }

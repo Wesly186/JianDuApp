@@ -30,6 +30,7 @@ public class UserModel {
     private HttpSubscriber<String> validationCodeSubscribe;
     private HttpSubscriber<String> registerSubscribe;
     private HttpSubscriber<String> updatePassSubscribe;
+    private HttpSubscriber<User> getUserInfoSubscribe;
 
     /**
      * 登陆获得token信息
@@ -211,5 +212,23 @@ public class UserModel {
     public void updateUserInfoCache(Context context, User user) {
         UserDao userDao = new UserDao(context);
         userDao.update(user);
+    }
+
+    /**
+     * 根据Token获取用户信息
+     *
+     * @return
+     */
+    public Subscription getUserInfo(Context context) {
+        Iuser iUser = RetrofitHelper.getProxy(Iuser.class, context);
+        Observable<BaseModel<User>> observable = iUser.getUserInfoByToken(PrefUtils.getString(context, GlobalConf.ACCESS_TOKEN, ""));
+        return observable.subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getUserInfoSubscribe);
+    }
+
+    public void setGetUserInfoSubscribe(HttpSubscriber<User> getUserInfoSubscribe) {
+        this.getUserInfoSubscribe = getUserInfoSubscribe;
     }
 }

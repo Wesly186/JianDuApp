@@ -2,35 +2,56 @@ package com.mialab.jiandu.presenter;
 
 import android.content.Context;
 
-import com.mialab.jiandu.entity.Article;
 import com.mialab.jiandu.entity.BaseModel;
-import com.mialab.jiandu.model.ArticleModel;
+import com.mialab.jiandu.entity.Rank;
+import com.mialab.jiandu.model.RankModel;
 import com.mialab.jiandu.utils.http.subscriber.HttpSubscriber;
 import com.mialab.jiandu.view.fragment.RankView;
 
 import java.util.List;
 
 /**
- * Created by Wesly186 on 2016/11/27.
+ * Created by Wesly186 on 2016/12/7.
  */
-
 public class RankPresenter extends BasePresenter {
 
-    private Context context;
+    private Context mContext;
     private RankView rankView;
-    private ArticleModel articleModel;
+    private RankModel rankModel;
 
-    public RankPresenter(Context context, RankView rankView) {
-        this.context = context;
+    public RankPresenter(Context mContext, RankView rankView) {
+        this.mContext = mContext;
         this.rankView = rankView;
-        articleModel = new ArticleModel();
+        rankModel = new RankModel();
     }
 
-    public void getArticleSynthetically(final int currentPage) {
-        articleModel.setArticleSyntheticallySubscriber(new HttpSubscriber<List<Article>>() {
+    public void getRankByReads() {
+        rankModel.setRankByReadsSubscriber(
+                new HttpSubscriber<List<Rank>>() {
+                    @Override
+                    public void onSuccess(BaseModel<List<Rank>> response) {
+                        rankView.loadSuccess(response.getData());
+                    }
+
+                    @Override
+                    public void onFailure(String message) {
+                        rankView.loadFailure(message);
+                    }
+
+                    @Override
+                    public void onBadNetwork() {
+                        rankView.onBadNetWork();
+                    }
+                }
+        );
+        addSubscription(rankModel.getRankByReads(mContext));
+    }
+
+    public void getRankByContributions() {
+        rankModel.setRankByContributionsSubscriber(new HttpSubscriber<List<Rank>>() {
             @Override
-            public void onSuccess(BaseModel<List<Article>> response) {
-                rankView.loadSuccess(currentPage, response.getData());
+            public void onSuccess(BaseModel<List<Rank>> response) {
+                rankView.loadSuccess(response.getData());
             }
 
             @Override
@@ -43,6 +64,6 @@ public class RankPresenter extends BasePresenter {
                 rankView.onBadNetWork();
             }
         });
-        addSubscription(articleModel.getArticleSynthetically(context, currentPage));
+        addSubscription(rankModel.getRankByContributions(mContext));
     }
 }

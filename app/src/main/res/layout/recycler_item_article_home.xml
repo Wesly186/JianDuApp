@@ -34,6 +34,7 @@
                 android:textColor="#275b8c" />
 
             <TextView
+                android:id="@+id/tv_job"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -65,7 +66,7 @@
         android:lineSpacingMultiplier="1.2"
         android:maxLines="3"
         android:text="本控件不依赖任何父布局，不是针对 RecyclerView、ListView，而是任意的ViewGroup里的childView都可以使用侧滑(删除)菜单。"
-        android:textColor="@color/black" />
+        android:textColor="@color/font_black" />
 
     <LinearLayout
         android:layout_width="match_parent"

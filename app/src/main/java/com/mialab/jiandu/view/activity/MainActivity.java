@@ -22,8 +22,8 @@ import com.mialab.jiandu.utils.StatusBarUtil;
 import com.mialab.jiandu.utils.ToastUtils;
 import com.mialab.jiandu.view.base.MvpActivity;
 import com.mialab.jiandu.view.fragment.HomeFragment;
+import com.mialab.jiandu.view.fragment.HotFragment;
 import com.mialab.jiandu.view.fragment.NotifyFragment;
-import com.mialab.jiandu.view.fragment.RankFragment;
 import com.mialab.jiandu.view.fragment.UserCenterFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -46,7 +46,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     RadioGroup rgTab;
 
     private HomeFragment mHomeFragment = new HomeFragment();
-    private RankFragment mRankFragment = new RankFragment();
+    private HotFragment mHotFragment = new HotFragment();
     private NotifyFragment mNotifyFragment = new NotifyFragment();
     private UserCenterFragment mUserCenterFragment = new UserCenterFragment();
 
@@ -92,7 +92,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(R.id.fl_content, mHomeFragment);
-        transaction.add(R.id.fl_content, mRankFragment);
+        transaction.add(R.id.fl_content, mHotFragment);
         transaction.add(R.id.fl_content, mNotifyFragment);
         transaction.add(R.id.fl_content, mUserCenterFragment);
         transaction.commit();
@@ -109,7 +109,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
                         break;
                     case R.id.rb_rank:
                         currentSelect = RANK_FRAGMENT;
-                        transaction.show(mRankFragment);
+                        transaction.show(mHotFragment);
                         break;
                     case R.id.rb_notify:
                         currentSelect = NOTIFY_FRAGMENT;
@@ -129,7 +129,7 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
     //隐藏所有Fragment
     private void hideAllFragment(FragmentTransaction transaction) {
         transaction.hide(mHomeFragment);
-        transaction.hide(mRankFragment);
+        transaction.hide(mHotFragment);
         transaction.hide(mNotifyFragment);
         transaction.hide(mUserCenterFragment);
     }

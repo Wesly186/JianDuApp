@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.mialab.jiandu.R;
 import com.mialab.jiandu.conf.GlobalConf;
-import com.mialab.jiandu.entity.Banner;
+import com.mialab.jiandu.entity.Article;
 
 import java.util.List;
 
@@ -19,9 +19,11 @@ import java.util.List;
 public class BannerAdapter extends PagerAdapter {
 
     private Context context;
-    private List<Banner> banners;
+    private List<Article> banners;
 
-    public BannerAdapter(Context context, List<Banner> banners) {
+    private OnItemClickListener listener;
+
+    public BannerAdapter(Context context, List<Article> banners) {
         this.context = context;
         this.banners = banners;
     }
@@ -37,10 +39,11 @@ public class BannerAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(ViewGroup container, final int position) {
+        if (banners.size() == 0) return null;
         View view = View.inflate(context, R.layout.pager_item_banner, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.iv_news_pic);
-        Banner banner = banners.get(position % banners.size());
+        Article banner = banners.get(position % banners.size());
         //占位符和渐现动画
         Glide.with(context)
                 .load(GlobalConf.BASE_PIC_URL + banner.getPicUrl())
@@ -50,6 +53,14 @@ public class BannerAdapter extends PagerAdapter {
                 .crossFade()
                 .into(imageView);
         container.addView(view);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onclick(position);
+                }
+            }
+        });
         return view;
     }
 
@@ -61,5 +72,13 @@ public class BannerAdapter extends PagerAdapter {
     @Override
     public int getItemPosition(Object object) {
         return POSITION_NONE;
+    }
+
+    public interface OnItemClickListener {
+        void onclick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 }

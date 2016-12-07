@@ -147,7 +147,7 @@
                 android:background="@color/divider" />
 
             <RelativeLayout
-                android:id="@+id/rl_contributions"
+                android:id="@+id/rl_publish_article"
                 style="@style/user_center_setting_item">
 
                 <ImageView

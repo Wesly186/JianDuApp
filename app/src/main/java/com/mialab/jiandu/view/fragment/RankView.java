@@ -1,15 +1,15 @@
 package com.mialab.jiandu.view.fragment;
 
-import com.mialab.jiandu.entity.Article;
+import com.mialab.jiandu.entity.Rank;
 
 import java.util.List;
 
 /**
- * Created by Wesly186 on 2016/11/27.
+ * Created by Wesly186 on 2016/12/7.
  */
 
 public interface RankView {
-    void loadSuccess(int currentPage, List<Article> data);
+    void loadSuccess(List<Rank> data);
 
     void loadFailure(String message);
 

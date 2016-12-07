@@ -263,6 +263,8 @@ public class ArticleDetailActivity extends MvpActivity<ArticleDetailPresenter> i
         btnCollect.setEnabled(true);
         btnCollect.setSelected(article.isHasCollected());
         btnCollect.setText(article.getCollectionNum() + "");
+
+        EventBus.getDefault().post(new UserInfoUpdate());
     }
 
     @Override
@@ -271,6 +273,11 @@ public class ArticleDetailActivity extends MvpActivity<ArticleDetailPresenter> i
         btnCollect.setSelected(article.isHasCollected());
         btnCollect.setText(article.getCollectionNum() + "");
         ToastUtils.showToast(this, message);
+    }
+
+    @Override
+    public void add2ReadSuccess() {
+        EventBus.getDefault().post(new UserInfoUpdate());
     }
 
     @Override
@@ -297,12 +304,14 @@ public class ArticleDetailActivity extends MvpActivity<ArticleDetailPresenter> i
                 .crossFade()
                 .into(ivHead);
         llBottom.setVisibility(View.VISIBLE);
+        if (AuthenticateUtils.hasLogin()) {
+            mvpPresenter.add2Read(article.getId());
+        }
     }
 
     @Override
     protected void onStop() {
         EventBus.getDefault().post(article);
-        EventBus.getDefault().post(new UserInfoUpdate());
         super.onStop();
     }
 

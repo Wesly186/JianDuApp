@@ -10,9 +10,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.mialab.jiandu.R;
 import com.mialab.jiandu.entity.Article;
-import com.mialab.jiandu.entity.User;
 import com.mialab.jiandu.utils.StatusBarUtil;
-import com.mialab.jiandu.view.adapter.RankFragmentAdapter;
+import com.mialab.jiandu.view.adapter.HotFragmentAdapter;
 import com.mialab.jiandu.view.base.BaseActivity;
 
 import java.util.ArrayList;
@@ -25,7 +24,7 @@ public class SearchActivity extends BaseActivity {
     @BindView(R.id.recycler_rank)
     RecyclerView mRecyclerView;
 
-    private RankFragmentAdapter mAdapter;
+    private HotFragmentAdapter mAdapter;
     private List<Article> articles = new ArrayList<>();
 
     private static final int PAGE_SIZE = 15;
@@ -55,7 +54,7 @@ public class SearchActivity extends BaseActivity {
         }
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new RankFragmentAdapter(R.layout.recycler_item_article_rank, articles);
+        mAdapter = new HotFragmentAdapter(R.layout.recycler_item_article_rank, articles);
         mAdapter.openLoadAnimation();
 
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
@@ -69,10 +68,6 @@ public class SearchActivity extends BaseActivity {
     @Override
     public void initData() {
         mRecyclerView.setAdapter(mAdapter);
-
-        for (int i = 0; i < 40; i++) {
-            articles.add(new Article(i, "JavaScript闯关记", "JavaScript闯关记", new User(), 265356436543646l));
-        }
 
         mAdapter.notifyDataSetChanged();
     }

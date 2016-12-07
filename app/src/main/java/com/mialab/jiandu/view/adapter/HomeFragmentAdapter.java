@@ -32,6 +32,7 @@ public class HomeFragmentAdapter extends BaseQuickAdapter<Article, BaseViewHolde
     protected void convert(BaseViewHolder baseViewHolder, Article article) {
         User writer = article.getWriter();
         baseViewHolder.setText(R.id.tv_writer, writer.getUsername())
+                .setText(R.id.tv_job, writer.getJob())
                 .setText(R.id.tv_breif_intro, article.getBriefIntro())
                 .setText(R.id.tv_title, article.getTitle())
                 .setText(R.id.tv_time, TimeUtils.time2Now(new Date(article.getPublishTime())))

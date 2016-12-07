@@ -25,38 +25,38 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:design:24.2.0'
-    compile 'com.android.support:support-v4:24.2.0'
-    compile 'com.android.support:appcompat-v7:24.2.0'
     /*ButterKnife*/
-    compile 'com.jakewharton:butterknife:8.1.0'
-    apt 'com.jakewharton:butterknife-compiler:8.1.0'
     /*Retrofit*/
-    compile 'com.squareup.retrofit2:retrofit:2.0.2'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     /*ormlite*/
     compile group: 'com.j256.ormlite', name: 'ormlite-core', version: '4.48'
     compile group: 'com.j256.ormlite', name: 'ormlite-android', version: '4.48'
     /*Glide*/
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'jp.wasabeef:glide-transformations:2.0.1'
     /*RXJava,RxAndroid*/
-    compile 'io.reactivex:rxjava:1.1.9'
-    compile 'io.reactivex:rxandroid:1.2.1'
     /*rxpermissions*/
-    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.0@aar'
     /*BilibiliShare*/
-    compile 'com.jungly.socialize:biliShare:0.1.05'
-    compile 'com.jungly.socialize:biliShare-util:0.1.05@aar'
     compile('com.facebook.fresco:fresco:0.8.1') {
         exclude group: 'com.nineoldandroids', module: 'library'
     }
     /*EventBus3.0*/
-    compile 'org.greenrobot:eventbus:3.0.0'
     /*ByeBurger*/
-    compile 'com.github.githubwing:ByeBurger:1.1.0'
     /*BaseRecyclerViewAdapterHelper*/
+    compile 'com.android.support:design:24.2.1'
+    compile 'com.android.support:support-v4:24.2.1'
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.jakewharton:butterknife:8.1.0'
+    compile 'com.squareup.retrofit2:retrofit:2.0.2'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'jp.wasabeef:glide-transformations:2.0.1'
+    compile 'io.reactivex:rxjava:1.1.9'
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.0@aar'
+    compile 'com.jungly.socialize:biliShare:0.1.05'
+    compile 'com.jungly.socialize:biliShare-util:0.1.05@aar'
+    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.github.githubwing:ByeBurger:1.1.0'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.6.0'
+    testCompile 'junit:junit:4.12'
+    apt 'com.jakewharton:butterknife-compiler:8.1.0'
 }

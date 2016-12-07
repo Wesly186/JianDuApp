@@ -17,7 +17,7 @@ public class BasePresenter {
         }
     }
 
-    public void addSubscription(Subscription subscription) {
+    protected void addSubscription(Subscription subscription) {
         if (mCompositeSubscription == null) {
             mCompositeSubscription = new CompositeSubscription();
         }

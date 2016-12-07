@@ -25,6 +25,7 @@ public class ArticleDetailModel {
     private HttpSubscriber<List<ArticleComment>> getCommentSubscriber;
     private HttpSubscriber<String> doCommentSubscriber;
     private HttpSubscriber<String> collectArticleSubscribe;
+    private HttpSubscriber<String> add2ReadSubscribe;
 
     /**
      * 从网络加载评论
@@ -82,5 +83,25 @@ public class ArticleDetailModel {
 
     public void setCollectArticleSubscribe(HttpSubscriber<String> collectArticleSubscribe) {
         this.collectArticleSubscribe = collectArticleSubscribe;
+    }
+
+    /**
+     * 添加到已经阅读列表中
+     *
+     * @param context
+     * @param id
+     * @return
+     */
+    public Subscription add2Read(Context context, int id) {
+        IArticleDetail iArticleDetail = RetrofitHelper.getProxy(IArticleDetail.class, context);
+        Observable<BaseModel<String>> observable = iArticleDetail.add2Read(PrefUtils.getString(context, GlobalConf.ACCESS_TOKEN, ""), id);
+        return observable.subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(add2ReadSubscribe);
+    }
+
+    public void setAdd2ReadSubscribe(HttpSubscriber<String> add2ReadSubscribe) {
+        this.add2ReadSubscribe = add2ReadSubscribe;
     }
 }

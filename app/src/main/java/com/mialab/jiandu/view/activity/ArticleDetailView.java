@@ -14,4 +14,6 @@ public interface ArticleDetailView {
     void collectSuccess(boolean collect);
 
     void collectFailure(String message);
+
+    void add2ReadSuccess();
 }

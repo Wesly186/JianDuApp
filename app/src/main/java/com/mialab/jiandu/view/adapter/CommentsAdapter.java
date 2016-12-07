@@ -32,6 +32,7 @@ public class CommentsAdapter extends BaseQuickAdapter<ArticleComment, BaseViewHo
     protected void convert(BaseViewHolder baseViewHolder, ArticleComment articleComment) {
         User user = articleComment.getUser();
         baseViewHolder.setText(R.id.tv_name, user.getUsername())
+                .setText(R.id.tv_job, user.getJob())
                 .setText(R.id.tv_publish_time, TimeUtils.time2Now(new Date(articleComment.getPublishTime())))
                 .setText(R.id.tv_content, articleComment.getComment());
         Glide.with(mContext)

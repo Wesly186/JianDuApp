@@ -19,6 +19,7 @@ import rx.Observable;
  */
 
 public interface IArticle {
+
     @FormUrlEncoded
     @POST("article/getArticleByTime")
     Observable<BaseModel<List<Article>>> getArticleByTime(@Field("accessToken") String accessToken, @Field("currentPage") int currentPage);
@@ -34,6 +35,10 @@ public interface IArticle {
     @FormUrlEncoded
     @POST("article/getArticleCollection")
     Observable<BaseModel<List<Article>>> getArticleCollection(@Field("accessToken") String accessToken, @Field("currentPage") int currentPage);
+
+    @FormUrlEncoded
+    @POST("article/getArticleReads")
+    Observable<BaseModel<List<Article>>> getArticleReads(@Field("accessToken") String accessToken, @Field("currentPage") int currentPage);
 
     @Multipart
     @POST("article/publishArticle")

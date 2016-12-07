@@ -16,7 +16,7 @@ import com.mialab.jiandu.entity.Article;
 import com.mialab.jiandu.presenter.WeekHotPresenter;
 import com.mialab.jiandu.utils.StatusBarUtil;
 import com.mialab.jiandu.utils.ToastUtils;
-import com.mialab.jiandu.view.adapter.RankFragmentAdapter;
+import com.mialab.jiandu.view.adapter.HotFragmentAdapter;
 import com.mialab.jiandu.view.base.MvpActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -35,7 +35,7 @@ public class WeekHotActivity extends MvpActivity<WeekHotPresenter> implements We
     @BindView(R.id.recycler_rank)
     RecyclerView mRecyclerView;
 
-    private RankFragmentAdapter mAdapter;
+    private HotFragmentAdapter mAdapter;
     private List<Article> articles = new ArrayList<>();
 
     private int clickPosition = 0;
@@ -65,7 +65,7 @@ public class WeekHotActivity extends MvpActivity<WeekHotPresenter> implements We
         refreshLayout.setColorSchemeResources(R.color.orange, R.color.red);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new RankFragmentAdapter(R.layout.recycler_item_article_rank, articles);
+        mAdapter = new HotFragmentAdapter(R.layout.recycler_item_article_rank, articles);
         mAdapter.openLoadAnimation();
 
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {

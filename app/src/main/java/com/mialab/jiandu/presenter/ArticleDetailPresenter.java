@@ -131,4 +131,33 @@ public class ArticleDetailPresenter extends BasePresenter {
         });
         addSubscription(articleDetailModel.collectArticle(context, id, collect));
     }
+
+    public void add2Read(int id) {
+        articleDetailModel.setAdd2ReadSubscribe(new HttpSubscriber<String>() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onSuccess(BaseModel<String> response) {
+                User user = userModel.getFromDB(context);
+
+                user.setReadNum(user.getReadNum() + 1);
+                userModel.updateUserInfoCache(context, user);
+                articleDetailView.add2ReadSuccess();
+            }
+
+            @Override
+            public void onFailure(String message) {
+
+            }
+
+            @Override
+            public void onBadNetwork() {
+
+            }
+        });
+        addSubscription(articleDetailModel.add2Read(context, id));
+    }
 }

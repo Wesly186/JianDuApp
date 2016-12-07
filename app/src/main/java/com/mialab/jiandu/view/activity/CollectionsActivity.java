@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -16,8 +17,9 @@ import com.mialab.jiandu.entity.Article;
 import com.mialab.jiandu.presenter.CollectionsPresenter;
 import com.mialab.jiandu.utils.StatusBarUtil;
 import com.mialab.jiandu.utils.ToastUtils;
-import com.mialab.jiandu.view.adapter.RankFragmentAdapter;
+import com.mialab.jiandu.view.adapter.HotFragmentAdapter;
 import com.mialab.jiandu.view.base.MvpActivity;
+import com.mialab.jiandu.view.fragment.UserCenterFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -30,16 +32,21 @@ public class CollectionsActivity extends MvpActivity<CollectionsPresenter> imple
 
     @BindView(R.id.ib_back)
     ImageButton ibBack;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
     @BindView(R.id.swiperefreshlayout)
     SwipeRefreshLayout refreshLayout;
     @BindView(R.id.recycler_rank)
     RecyclerView mRecyclerView;
 
-    private RankFragmentAdapter mAdapter;
+    private HotFragmentAdapter mAdapter;
     private List<Article> articles = new ArrayList<>();
+    private Article clickArticle;
 
-    private int clickPosition = 0;
     private int currentPage = 0;
+
+    private Intent mIntent;
+    private int mType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,17 +62,24 @@ public class CollectionsActivity extends MvpActivity<CollectionsPresenter> imple
 
     @Override
     protected CollectionsPresenter initPresenter() {
+        mIntent = getIntent();
+        mType = mIntent.getIntExtra("type", 0);
         return new CollectionsPresenter(this, this);
     }
 
     @Override
     protected void initView() {
+        if (mType == UserCenterFragment.collection) {
+            tvTitle.setText("我的收藏");
+        } else {
+            tvTitle.setText("我的阅历");
+        }
         StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimaryDark), 0);
         refreshLayout.setRefreshing(true);
         refreshLayout.setColorSchemeResources(R.color.orange, R.color.red);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new RankFragmentAdapter(R.layout.recycler_item_article_rank, articles);
+        mAdapter = new HotFragmentAdapter(R.layout.recycler_item_article_rank, articles);
         mAdapter.openLoadAnimation();
 
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
@@ -74,7 +88,11 @@ public class CollectionsActivity extends MvpActivity<CollectionsPresenter> imple
                 mRecyclerView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mvpPresenter.getArticleCollection(currentPage + 1);
+                        if (mType == UserCenterFragment.collection) {
+                            mvpPresenter.getArticleCollection(currentPage + 1);
+                        } else {
+                            mvpPresenter.getArticleReads(currentPage + 1);
+                        }
                     }
                 }, 800);
             }
@@ -89,17 +107,25 @@ public class CollectionsActivity extends MvpActivity<CollectionsPresenter> imple
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
-                clickPosition = position;
+                clickArticle = articles.get(position);
                 startActivity(new Intent(CollectionsActivity.this, ArticleDetailActivity.class));
             }
         });
 
-        mvpPresenter.getArticleCollection(0);
+        if (mType == UserCenterFragment.collection) {
+            mvpPresenter.getArticleCollection(0);
+        } else {
+            mvpPresenter.getArticleReads(0);
+        }
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mvpPresenter.getArticleCollection(0);
+                if (mType == UserCenterFragment.collection) {
+                    mvpPresenter.getArticleCollection(0);
+                } else {
+                    mvpPresenter.getArticleReads(0);
+                }
             }
         });
     }
@@ -148,8 +174,8 @@ public class CollectionsActivity extends MvpActivity<CollectionsPresenter> imple
 
     @Override
     public void onStop() {
-        if (clickPosition < articles.size()) {
-            EventBus.getDefault().post(articles.get(clickPosition));
+        if (clickArticle != null) {
+            EventBus.getDefault().post(clickArticle);
         }
         super.onStop();
     }

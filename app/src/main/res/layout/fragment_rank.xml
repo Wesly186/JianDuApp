@@ -5,45 +5,6 @@
     android:background="@color/page_bg"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/rl_title"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_mian_height"
-        android:background="@color/colorPrimary"
-        android:clickable="true">
-
-        <RelativeLayout
-            android:id="@+id/rl_search"
-            android:layout_width="match_parent"
-            android:layout_height="31dp"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="9dp"
-            android:layout_marginStart="9dp"
-            android:background="@drawable/btn_search_selector">
-
-            <ImageView
-                android:id="@+id/iv_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
-                android:src="@drawable/img_search" />
-
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
-                android:layout_toEndOf="@id/iv_search"
-                android:text="@string/title_search"
-                android:textColor="#a0cfff"
-                android:textSize="16sp" />
-
-        </RelativeLayout>
-
-    </RelativeLayout>
-
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swiperefreshlayout"
         android:layout_width="match_parent"
@@ -54,6 +15,6 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_rank"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent" />
     </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

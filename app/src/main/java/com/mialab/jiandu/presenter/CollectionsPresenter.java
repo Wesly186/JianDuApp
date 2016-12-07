@@ -45,4 +45,24 @@ public class CollectionsPresenter extends BasePresenter {
         });
         addSubscription(articleModel.getArticleCollection(context, currentPage));
     }
+
+    public void getArticleReads(final int currentPage) {
+        articleModel.setArticleCollectionSubscriber(new HttpSubscriber<List<Article>>() {
+            @Override
+            public void onSuccess(BaseModel<List<Article>> response) {
+                collectionsView.loadSuccess(currentPage, response.getData());
+            }
+
+            @Override
+            public void onFailure(String message) {
+                collectionsView.loadFailure(message);
+            }
+
+            @Override
+            public void onBadNetwork() {
+                collectionsView.onBadNetWork();
+            }
+        });
+        addSubscription(articleModel.getArticleReads(context, currentPage));
+    }
 }

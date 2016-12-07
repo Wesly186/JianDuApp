@@ -50,4 +50,8 @@ public interface Iuser {
     Observable<BaseModel<String>> updatePassword(@Field("phone") String phone, @Field("oldPassword") String oldPassword,
                                                  @Field("newPassword") String newPassword);
 
+    @FormUrlEncoded
+    @POST("user/getUserInfoByToken")
+    Observable<BaseModel<User>> getUserInfoByToken(@Field("accessToken") String accessToken);
+
 }
