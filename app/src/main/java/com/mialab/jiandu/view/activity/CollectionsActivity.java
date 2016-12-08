@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -82,6 +83,19 @@ public class CollectionsActivity extends MvpActivity<CollectionsPresenter> imple
         mAdapter = new HotFragmentAdapter(R.layout.recycler_item_article_rank, articles);
         mAdapter.openLoadAnimation();
 
+        View emptyView = null;
+        if (mType == UserCenterFragment.collection) {
+            emptyView = LayoutInflater.from(this).inflate(R.layout.recycler_empty_collection, mRecyclerView, false);
+        } else {
+            emptyView = LayoutInflater.from(this).inflate(R.layout.recycler_empty_reads, mRecyclerView, false);
+        }
+        mAdapter.setEmptyView(emptyView);
+    }
+
+    @Override
+    public void initData() {
+        ibBack.setOnClickListener(this);
+
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
@@ -97,12 +111,6 @@ public class CollectionsActivity extends MvpActivity<CollectionsPresenter> imple
                 }, 800);
             }
         });
-    }
-
-    @Override
-    public void initData() {
-        ibBack.setOnClickListener(this);
-
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override

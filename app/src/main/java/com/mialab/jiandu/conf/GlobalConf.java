@@ -26,7 +26,10 @@ public class GlobalConf {
     public static final String REFRESH_TOKEN = "refresh_token";
     public static final String PHONE = "phone";
     public static final String AUTO_UPDATE_SET = "auto_update_set";
-    public static final String COMMENTS_PRAISE = "";
+
+    //设置项的key
+    public static final String SETTING_WIFI_AUTO_UPDATE = "setting_wifi_auto_update";
+    public static final String SETTING_PUSH_ARTICLE = "setting_push_article";
 
     public static void configPlatformsIfNeed() {
         if (SharePlatformConfig.hasAlreadyConfig()) {

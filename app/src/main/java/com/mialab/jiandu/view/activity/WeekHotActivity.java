@@ -37,8 +37,8 @@ public class WeekHotActivity extends MvpActivity<WeekHotPresenter> implements We
 
     private HotFragmentAdapter mAdapter;
     private List<Article> articles = new ArrayList<>();
+    private Article clickArticle;
 
-    private int clickPosition = 0;
     private int currentPage = 0;
 
     @Override
@@ -89,7 +89,7 @@ public class WeekHotActivity extends MvpActivity<WeekHotPresenter> implements We
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void SimpleOnItemClick(BaseQuickAdapter adapter, View view, int position) {
-                clickPosition = position;
+                clickArticle = articles.get(position);
                 startActivity(new Intent(WeekHotActivity.this, ArticleDetailActivity.class));
             }
         });
@@ -148,8 +148,8 @@ public class WeekHotActivity extends MvpActivity<WeekHotPresenter> implements We
 
     @Override
     public void onStop() {
-        if (clickPosition < articles.size()) {
-            EventBus.getDefault().post(articles.get(clickPosition));
+        if (clickArticle != null) {
+            EventBus.getDefault().post(clickArticle);
         }
         super.onStop();
     }

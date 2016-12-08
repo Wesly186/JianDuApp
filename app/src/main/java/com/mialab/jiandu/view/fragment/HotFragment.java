@@ -23,7 +23,6 @@ import com.mialab.jiandu.utils.DensityUtils;
 import com.mialab.jiandu.utils.ToastUtils;
 import com.mialab.jiandu.view.activity.ArticleDetailActivity;
 import com.mialab.jiandu.view.activity.ContributionActivity;
-import com.mialab.jiandu.view.activity.DiscussActivity;
 import com.mialab.jiandu.view.activity.MainActivity;
 import com.mialab.jiandu.view.activity.SearchActivity;
 import com.mialab.jiandu.view.activity.WeekHotActivity;
@@ -206,7 +205,7 @@ public class HotFragment extends MvpFragment<HotPresenter> implements HotView, V
                 startActivity(new Intent(mContext, SearchActivity.class));
                 break;
             case R.id.ll_discuss:
-                startActivity(new Intent(mContext, DiscussActivity.class));
+                ToastUtils.showToast(mContext, "开发中，尽请期待！");
                 break;
             case R.id.ll_contribution:
                 startActivity(new Intent(mContext, ContributionActivity.class));

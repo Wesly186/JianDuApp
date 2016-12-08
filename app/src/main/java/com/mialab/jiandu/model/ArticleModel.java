@@ -32,6 +32,7 @@ public class ArticleModel {
     private HttpSubscriber<List<Article>> articleSyntheticallySubscriber;
     private HttpSubscriber<String> publishArticleSubscriber;
     private HttpSubscriber<List<Article>> articleWeekHotSubscriber;
+    private HttpSubscriber<List<Article>> searchArticleSubscriber;
     private HttpSubscriber<List<Article>> articleCollectionSubscriber;
     private HttpSubscriber<List<Article>> getBannersSubscriber;
 
@@ -119,6 +120,21 @@ public class ArticleModel {
 
     public void setArticleWeekHotSubscriber(HttpSubscriber<List<Article>> articleWeekHotSubscriber) {
         this.articleWeekHotSubscriber = articleWeekHotSubscriber;
+    }
+
+    public Subscription searchArticle(Context context, String keyword, int currentPage) {
+
+        IArticle iArticle = RetrofitHelper.getProxy(IArticle.class, context);
+        Observable<BaseModel<List<Article>>> observable = iArticle.searchArticle(PrefUtils.getString(context, GlobalConf.ACCESS_TOKEN, ""), keyword, currentPage);
+        Subscription subscription = observable.subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(searchArticleSubscriber);
+        return subscription;
+    }
+
+    public void setSearchArticleSubscriber(HttpSubscriber<List<Article>> searchArticleSubscriber) {
+        this.searchArticleSubscriber = searchArticleSubscriber;
     }
 
     /**

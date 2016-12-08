@@ -16,8 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mialab.jiandu.R;
+import com.mialab.jiandu.conf.GlobalConf;
 import com.mialab.jiandu.entity.AppVersion;
 import com.mialab.jiandu.presenter.MainPresenter;
+import com.mialab.jiandu.utils.PrefUtils;
 import com.mialab.jiandu.utils.StatusBarUtil;
 import com.mialab.jiandu.utils.ToastUtils;
 import com.mialab.jiandu.view.base.MvpActivity;
@@ -164,18 +166,18 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
             public void onClick(final View view) {
                 mvpPresenter.downloadNewVersion(data);
                 ToastUtils.showToast(MainActivity.this, "后台下载更新中...");
-                showUpdateNotification();
+                showUpdateNotification(false);
                 dialog.dismiss();
             }
         });
         dialog.show();
     }
 
-    public void showUpdateNotification() {
+    public void showUpdateNotification(boolean auto) {
         notifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notifyBuilder = (Builder) new Builder(MainActivity.this)
                 .setSmallIcon(R.mipmap.app_icon)
-                .setContentTitle("新版本：简读")
+                .setContentTitle(auto ? "WIFI自动更新：简读" : "新版本：简读")
                 .setContentText("正在下载...");
         notifyBuilder.setAutoCancel(false);
         notifyBuilder.setProgress(100, 0, false);
@@ -207,7 +209,12 @@ public class MainActivity extends MvpActivity<MainPresenter> implements MainView
 
     @Override
     public void requestWriteSuccess() {
-        showUpdateDialog(mAppVersion);
+        if (PrefUtils.getBoolean(this, GlobalConf.SETTING_WIFI_AUTO_UPDATE, false)) {
+            mvpPresenter.downloadNewVersion(mAppVersion);
+            showUpdateNotification(true);
+        } else {
+            showUpdateDialog(mAppVersion);
+        }
     }
 
     @Override

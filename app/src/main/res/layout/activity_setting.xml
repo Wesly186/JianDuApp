@@ -59,6 +59,7 @@
         android:background="@color/divider" />
 
     <RelativeLayout
+        android:id="@+id/rl_check_update"
         style="@style/setting_item"
         android:layout_marginTop="15dp">
 
@@ -72,6 +73,7 @@
             android:text="检查更新" />
 
         <TextView
+            android:id="@+id/tv_version_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -88,19 +90,22 @@
         android:layout_height="1px"
         android:background="@color/divider" />
 
-    <RelativeLayout style="@style/setting_item">
+    <RelativeLayout
+        android:id="@+id/rl_clean_cache"
+        style="@style/setting_item">
 
         <TextView
             style="@style/setting_item_text"
             android:text="清除缓存" />
 
         <TextView
+            android:id="@+id/tv_cache_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/item_margin_right"
-            android:text="4.00KB"
+            android:text="0KB"
             android:textColor="@color/grey" />
 
     </RelativeLayout>
@@ -110,9 +115,7 @@
         android:layout_height="1px"
         android:background="@color/divider" />
 
-    <RelativeLayout
-        android:id="@+id/rl_auto_update"
-        style="@style/setting_item">
+    <RelativeLayout style="@style/setting_item">
 
         <TextView
             style="@style/setting_item_text"
@@ -121,10 +124,8 @@
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/switch_wifi_auto"
             style="@style/setting_switch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="false"
-            android:focusable="false" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </RelativeLayout>
 
@@ -140,11 +141,10 @@
             android:text="向我推送好文章" />
 
         <android.support.v7.widget.SwitchCompat
+            android:id="@+id/switch_push_article"
             style="@style/setting_switch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="false"
-            android:focusable="false" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </RelativeLayout>
 

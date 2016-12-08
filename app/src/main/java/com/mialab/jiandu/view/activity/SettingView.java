@@ -9,11 +9,13 @@ public interface SettingView {
 
     void showUpdateDialog(AppVersion data);
 
-    void updateProgress(int percentage);
+    void updateVersionFailure(String message);
+
+    void updateDownloadProgress(int percentage);
 
     void downloadComplete();
 
-    void updateFailed(String message);
+    void downloadFailed(String message);
 
     void updatePassSuccess();
 
@@ -22,4 +24,8 @@ public interface SettingView {
     void badNetWork();
 
     void illegalInput(String message);
+
+    void requestWriteSuccess();
+
+    void requestWriteFailure();
 }
