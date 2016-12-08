@@ -42,11 +42,6 @@ public class RankFragment extends MvpFragment<RankPresenter> implements RankView
     public static final int FACTOR_READS = 0;
     public static final int FACTOR_CONTRIBUTION = 1;
 
-
-    public RankFragment(int rankFactor) {
-        this.rankFactor = rankFactor;
-    }
-
     @Override
     protected RankPresenter initPresenter(Context context) {
         return new RankPresenter(context, this);
@@ -124,5 +119,9 @@ public class RankFragment extends MvpFragment<RankPresenter> implements RankView
             EventBus.getDefault().post(clickRank);
         }
         super.onStop();
+    }
+
+    public void setRankFactor(int rankFactor) {
+        this.rankFactor = rankFactor;
     }
 }

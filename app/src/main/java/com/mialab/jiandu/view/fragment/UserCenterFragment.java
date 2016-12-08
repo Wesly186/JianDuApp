@@ -113,8 +113,9 @@ public class UserCenterFragment extends MvpFragment<UserCenterPresenter> impleme
         rlPublishArticle.setOnClickListener(this);
         rlRank.setOnClickListener(this);
         rlSettings.setOnClickListener(this);
-
-        mvpPresenter.getUserInfo();
+        if (AuthenticateUtils.hasLogin()) {
+            mvpPresenter.getUserInfo();
+        }
     }
 
     @Override

@@ -51,8 +51,10 @@ public class ContributionActivity extends BaseActivity implements ContributionVi
     protected void initView() {
         StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimaryDark), 0);
         //初始化各fragment
-        readFragment = new RankFragment(RankFragment.FACTOR_READS);
-        contributionFragment = new RankFragment(RankFragment.FACTOR_CONTRIBUTION);
+        readFragment = new RankFragment();
+        readFragment.setRankFactor(RankFragment.FACTOR_READS);
+        contributionFragment = new RankFragment();
+        contributionFragment.setRankFactor(RankFragment.FACTOR_CONTRIBUTION);
         //将fragment装进列表中
         fragments = new ArrayList<Fragment>();
         fragments.add(readFragment);

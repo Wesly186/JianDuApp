@@ -14,6 +14,7 @@ import com.mialab.jiandu.R;
 import com.mialab.jiandu.conf.GlobalConf;
 import com.mialab.jiandu.entity.Message;
 import com.mialab.jiandu.presenter.MessagePresenter;
+import com.mialab.jiandu.utils.AuthenticateUtils;
 import com.mialab.jiandu.utils.ToastUtils;
 import com.mialab.jiandu.view.activity.ArticleDetailActivity;
 import com.mialab.jiandu.view.activity.CommentsActivity;
@@ -56,8 +57,12 @@ public class MessageFragment extends MvpFragment<MessagePresenter> implements Me
 
     @Override
     protected void initView() {
-        refreshLayout.setRefreshing(true);
         refreshLayout.setColorSchemeResources(R.color.orange, R.color.red);
+        if (!AuthenticateUtils.hasLogin()) {
+            refreshLayout.setEnabled(false);
+        } else {
+            refreshLayout.setRefreshing(true);
+        }
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mAdapter = new MessageFragmentAdapter(R.layout.recycler_item_message, messages);
@@ -93,8 +98,10 @@ public class MessageFragment extends MvpFragment<MessagePresenter> implements Me
                 }
             }
         });
+        if (AuthenticateUtils.hasLogin()) {
+            mvpPresenter.getMessages(0);
+        }
 
-        mvpPresenter.getMessages(0);
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
