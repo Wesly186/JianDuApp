@@ -1,11 +1,11 @@
 <component name="libraryTable">
   <library name="biliShare-0.1.05">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.jungly.socialize/biliShare/0.1.05/jars/libs/open_sdk_r5509.jar!/" />
-      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.jungly.socialize/biliShare/0.1.05/res" />
       <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.jungly.socialize/biliShare/0.1.05/jars/libs/weiboSDKCore_3.1.4.jar!/" />
-      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.jungly.socialize/biliShare/0.1.05/jars/classes.jar!/" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.jungly.socialize/biliShare/0.1.05/jars/libs/open_sdk_r5509.jar!/" />
       <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.jungly.socialize/biliShare/0.1.05/jars/libs/libammsdk.jar!/" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.jungly.socialize/biliShare/0.1.05/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.jungly.socialize/biliShare/0.1.05/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

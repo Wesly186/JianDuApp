@@ -37,9 +37,6 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 import static com.mialab.jiandu.utils.AuthenticateUtils.hasLogin;
 
-/**
- * Created by Wesly186 on 2016/8/17.
- */
 public class UserCenterFragment extends MvpFragment<UserCenterPresenter> implements UserCenterView, View.OnClickListener {
 
     @BindView(R.id.rl_user_profile)
@@ -121,14 +118,14 @@ public class UserCenterFragment extends MvpFragment<UserCenterPresenter> impleme
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.rl_user_profile:
+            case R.id.rl_user_profile://个人
                 if (!hasLogin()) {
                     startActivity(new Intent(mContext, LoginActivity.class));
                     return;
                 }
                 startActivity(new Intent(mContext, UserProfileActivity.class));
                 break;
-            case R.id.rl_collections:
+            case R.id.rl_collections://收藏
                 if (!hasLogin()) {
                     startActivity(new Intent(mContext, LoginActivity.class));
                     return;
@@ -137,7 +134,7 @@ public class UserCenterFragment extends MvpFragment<UserCenterPresenter> impleme
                 collectionIntent.putExtra("type", UserCenterFragment.collection);
                 startActivity(collectionIntent);
                 break;
-            case R.id.rl_reads:
+            case R.id.rl_reads://阅读
                 if (!hasLogin()) {
                     startActivity(new Intent(mContext, LoginActivity.class));
                     return;
@@ -146,21 +143,21 @@ public class UserCenterFragment extends MvpFragment<UserCenterPresenter> impleme
                 readsIntent.putExtra("type", UserCenterFragment.reads);
                 startActivity(readsIntent);
                 break;
-            case R.id.rl_publish_article:
+            case R.id.rl_publish_article://投稿
                 if (!hasLogin()) {
                     startActivity(new Intent(mContext, LoginActivity.class));
                     return;
                 }
                 startActivity(new Intent(mContext, ArticlePublishActivity.class));
                 break;
-            case R.id.rl_rank:
+            case R.id.rl_rank://排名
                 if (!hasLogin()) {
                     startActivity(new Intent(mContext, LoginActivity.class));
                     return;
                 }
                 startActivity(new Intent(mContext, ContributionActivity.class));
                 break;
-            case R.id.rl_settings:
+            case R.id.rl_settings://设置
                 startActivity(new Intent(mContext, SettingActivity.class));
                 break;
         }

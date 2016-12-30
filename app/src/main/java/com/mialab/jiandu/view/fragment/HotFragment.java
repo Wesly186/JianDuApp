@@ -40,9 +40,9 @@ import butterknife.BindView;
 public class HotFragment extends MvpFragment<HotPresenter> implements HotView, View.OnClickListener {
 
     @BindView(R.id.rl_search)
-    RelativeLayout rlSearch;
+    RelativeLayout rlSearch;//搜索框
     @BindView(R.id.swiperefreshlayout)
-    SwipeRefreshLayout refreshLayout;
+    SwipeRefreshLayout refreshLayout;//刷新
     @BindView(R.id.recycler_rank)
     RecyclerView mRecyclerView;
     ViewPager vpBanner;
@@ -61,7 +61,7 @@ public class HotFragment extends MvpFragment<HotPresenter> implements HotView, V
 
     private int mCurrentPage = 0;
 
-    private Handler handler = new Handler() {
+    private Handler handler = new Handler() {//处理图片滑动
         @Override
         public void handleMessage(Message msg) {
             int currentItem = vpBanner.getCurrentItem() + 1;
@@ -72,6 +72,7 @@ public class HotFragment extends MvpFragment<HotPresenter> implements HotView, V
 
     @Override
     protected int getContentViewId() {
+
         return R.layout.fragment_hot;
     }
 
@@ -102,9 +103,9 @@ public class HotFragment extends MvpFragment<HotPresenter> implements HotView, V
         });
 
         View headView = LayoutInflater.from(mContext).inflate(R.layout.recycler_header_hot, mRecyclerView, false);
-        mAdapter.addHeaderView(headView);
+        mAdapter.addHeaderView(headView);//顶层布局
 
-        vpBanner = (ViewPager) headView.findViewById(R.id.vp_banner);
+        vpBanner = (ViewPager) headView.findViewById(R.id.vp_banner);//自动滑图
         llDiscuss = (LinearLayout) headView.findViewById(R.id.ll_discuss);
         llContribution = (LinearLayout) headView.findViewById(R.id.ll_contribution);
         llWeekHot = (LinearLayout) headView.findViewById(R.id.ll_week_hot);
@@ -129,18 +130,19 @@ public class HotFragment extends MvpFragment<HotPresenter> implements HotView, V
             }
 
             @Override
-            public void onPageSelected(int position) {
+            public void onPageSelected(int position) {//滑到一半无效
+
                 updateDot();
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
+            public void onPageScrollStateChanged(int state) {//手动改变图片
 
             }
         });
         bannerAdapter.setOnItemClickListener(new BannerAdapter.OnItemClickListener() {
             @Override
-            public void onclick(int position) {
+            public void onclick(int position) {//三个banner里面的按键
                 clickArticle = mBanners.get(position % mBanners.size());
                 startActivity(new Intent(mContext, ArticleDetailActivity.class));
             }

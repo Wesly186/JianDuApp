@@ -23,9 +23,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-/**
- * Created by Wesly186 on 2016/12/7.
- */
+//所有排序界面
 
 public class RankFragment extends MvpFragment<RankPresenter> implements RankView {
 
