@@ -29,9 +29,7 @@ import java.util.List;
 import butterknife.BindView;
 
 
-/**
- * Created by Wesly186 on 2016/8/17.
- */
+
 public class MessageFragment extends MvpFragment<MessagePresenter> implements MessageView {
 
     @BindView(R.id.swiperefreshlayout)
@@ -40,7 +38,7 @@ public class MessageFragment extends MvpFragment<MessagePresenter> implements Me
     RecyclerView mRecyclerView;
 
     private MessageFragmentAdapter mAdapter;
-    private List<Message> messages = new ArrayList<>();
+    private List<Message> messages = new ArrayList<>();//信息列表
     private Message clickMessage;
 
     private int currentPage = 0;

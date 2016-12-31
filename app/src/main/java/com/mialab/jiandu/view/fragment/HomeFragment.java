@@ -28,44 +28,40 @@ import java.util.List;
 
 import butterknife.BindView;
 
-
-/**
- * Created by Wesly186 on 2016/8/17.
- */
 public class HomeFragment extends MvpFragment<HomeArticlePresenter> implements HomeView, View.OnClickListener {
 
     @BindView(R.id.recycler_home)
-    RecyclerView mRecyclerView;
+    RecyclerView mRecyclerView;//页面根布局
     @BindView(R.id.swiperefreshlayout)
-    SwipeRefreshLayout refreshLayout;
+    SwipeRefreshLayout refreshLayout;//刷新后的布局情况
     @BindView(R.id.rl_bad_network)
-    RelativeLayout rlBadNetwork;
+    RelativeLayout rlBadNetwork;//无网络时显示的布局
     @BindView(R.id.btn_reload)
-    Button btnReload;
+    Button btnReload;//按键：重新加载
 
-    private HomeFragmentAdapter mAdapter;
-    private List<Article> articles = new ArrayList<>();
+    private HomeFragmentAdapter mAdapter;//适配器
+    private List<Article> articles = new ArrayList<>();//存放文章
     private Article clickArticle;
 
-    private int currentPage = 0;
+    private int currentPage = 0;//首页为0号页面
 
     @Override
-    protected int getContentViewId() {
+    protected int getContentViewId() {//抽象方法，返回内容视图ID
         return R.layout.fragment_home;
-    }
+    }//获取文章布局的位置信息
 
     @Override
-    protected HomeArticlePresenter initPresenter(Context context) {
+    protected HomeArticlePresenter initPresenter(Context context) {//显示首页文章
         return new HomeArticlePresenter(context, this);
     }
 
     @Override
-    protected void initView() {
-        refreshLayout.setRefreshing(true);
-        refreshLayout.setColorSchemeResources(R.color.orange, R.color.red);
+    protected void initView() {//初始化视图页面
+        refreshLayout.setRefreshing(true);//刷新
+        refreshLayout.setColorSchemeResources(R.color.orange, R.color.red);//刷新图像
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        mAdapter = new HomeFragmentAdapter(R.layout.recycler_item_article_home, articles);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));//用recycleview的方法，流畅刷新
+        mAdapter = new HomeFragmentAdapter(R.layout.recycler_item_article_home, articles);//获取文章信息
         mAdapter.openLoadAnimation();
 
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
@@ -74,7 +70,7 @@ public class HomeFragment extends MvpFragment<HomeArticlePresenter> implements H
                 mRecyclerView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mvpPresenter.getArticleByTime(currentPage + 1);
+                        mvpPresenter.getArticleByTime(currentPage + 1);//给后面加载页面，返回首页做准备
                     }
                 }, 800);
             }
@@ -83,7 +79,6 @@ public class HomeFragment extends MvpFragment<HomeArticlePresenter> implements H
 
     @Override
     public void initData() {
-
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
@@ -98,7 +93,7 @@ public class HomeFragment extends MvpFragment<HomeArticlePresenter> implements H
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mvpPresenter.getArticleByTime(0);
+                mvpPresenter.getArticleByTime(0);//获取第0页内容
             }
         });
         btnReload.setOnClickListener(this);
@@ -109,11 +104,11 @@ public class HomeFragment extends MvpFragment<HomeArticlePresenter> implements H
         rlBadNetwork.setVisibility(View.INVISIBLE);
         refreshLayout.setVisibility(View.VISIBLE);
         refreshLayout.setRefreshing(false);
-        if (currentPage == 0) {
+        if (currentPage == 0) {//下拉
             this.articles.clear();
             this.articles.addAll(articles);
             this.currentPage = 0;
-        } else {
+        } else {//上拉
             this.currentPage++;
             this.articles.addAll(articles);
         }
@@ -143,18 +138,18 @@ public class HomeFragment extends MvpFragment<HomeArticlePresenter> implements H
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_reload:
-                mvpPresenter.getArticleByTime(0);
+        switch (v.getId()) {//获取点击的位置id
+            case R.id.btn_reload://重载
+                mvpPresenter.getArticleByTime(0);//默认加载第一页
                 break;
         }
     }
 
     @Override
-    public void onStop() {
+    public void onStop() {//跳转，不是onpause
         if (clickArticle != null) {
-            if (((MainActivity) mContext).getCurrentSelect() == MainActivity.HOME_FRAGMENT) {
-                EventBus.getDefault().post(clickArticle);
+            if (((MainActivity) mContext).getCurrentSelect() == MainActivity.HOME_FRAGMENT) {//在第一个FRAGEMENT里
+                EventBus.getDefault().post(clickArticle);//链接
             }
         }
         super.onStop();

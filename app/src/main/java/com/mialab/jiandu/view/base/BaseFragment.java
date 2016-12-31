@@ -9,21 +9,20 @@ import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
 
-/**
- * Created by Wesly186 on 2016/8/16.
- */
+
 public abstract class BaseFragment extends Fragment {
 
-    protected Context mContext;
-    protected View mRootView;
+    protected Context mContext;//内容
+    protected View mRootView;//根布局
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,//fragment的形成
+                             Bundle savedInstanceState) {
         mRootView = inflater.inflate(getContentViewId(), container, false);
         ButterKnife.bind(this, mRootView);
         this.mContext = getActivity();
-        initView();
-        initData();
+        initView();//布局
+        initData();//数据
         return mRootView;
     }
 

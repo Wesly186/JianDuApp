@@ -4,9 +4,6 @@ import com.mialab.jiandu.R;
 import com.mialab.jiandu.view.base.BaseFragment;
 
 
-/**
- * Created by Wesly186 on 2016/8/17.
- */
 public class ActivityFragment extends BaseFragment {
 
     @Override

@@ -14,9 +14,6 @@ import java.util.List;
 
 import butterknife.BindView;
 
-/**
- * Created by Wesly186 on 2016/8/17.
- */
 public class NotifyFragment extends BaseFragment {
 
     @BindView(R.id.tl_title)
@@ -29,7 +26,7 @@ public class NotifyFragment extends BaseFragment {
     private List<String> titles;
 
     private MessageFragment messageFragment;
-    private ActivityFragment activityFragment;
+    private ActivityFragment activityFragment;//动态页，未实现
 
     @Override
     protected int getContentViewId() {

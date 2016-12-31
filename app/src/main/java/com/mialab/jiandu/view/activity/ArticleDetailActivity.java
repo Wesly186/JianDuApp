@@ -49,7 +49,8 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 import static com.mialab.jiandu.R.id.btn_collect;
 
-public class ArticleDetailActivity extends MvpActivity<ArticleDetailPresenter> implements ArticleDetailView, View.OnClickListener,
+public class ArticleDetailActivity extends MvpActivity<ArticleDetailPresenter>
+        implements ArticleDetailView, View.OnClickListener,
         ShareHelper.Callback, PopupMenu.OnMenuItemClickListener {
 
     @BindView(R.id.ib_back)
