@@ -10,7 +10,7 @@ import retrofit2.http.Query;
 import rx.Observable;
 
 /**
- * Created by Wesly186 on 2016/12/7.
+ * 贡献
  */
 
 public interface IRank {

@@ -11,7 +11,7 @@ import butterknife.BuildConfig;
 import butterknife.ButterKnife;
 
 /**
- * Created by Wesly186 on 2016/8/16.
+ * 一些静态方法 第三方框架初始化
  */
 public class JianDuApplication extends Application {
 

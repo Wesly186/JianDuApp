@@ -9,7 +9,7 @@ import com.mialab.jiandu.utils.DBHelper;
 import java.sql.SQLException;
 
 /**
- * Created by Wesly186 on 2016/8/20.
+ * 数据库的接口 增删改查的方法 给model层调用
  */
 public class UserDao {
 

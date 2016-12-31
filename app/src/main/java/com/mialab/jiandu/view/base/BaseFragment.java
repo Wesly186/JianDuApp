@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
 
-
+/**
+ * 基础
+ */
 public abstract class BaseFragment extends Fragment {
 
     protected Context mContext;//内容

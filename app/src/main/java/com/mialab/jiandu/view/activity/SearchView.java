@@ -5,7 +5,7 @@ import com.mialab.jiandu.entity.Article;
 import java.util.List;
 
 /**
- * Created by Wesly186 on 2016/12/8.
+ * 搜索
  */
 
 public interface SearchView {

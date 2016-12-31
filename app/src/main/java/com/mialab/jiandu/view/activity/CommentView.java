@@ -6,7 +6,7 @@ import com.mialab.jiandu.entity.ArticleComment;
 import java.util.List;
 
 /**
- * Created by Wesly186 on 2016/8/27.
+ * 评论
  */
 public interface CommentView {
     void getCommentsSuccess(int currentPage, List<ArticleComment> articleComments);

@@ -17,7 +17,7 @@ import retrofit2.http.Query;
 import rx.Observable;
 
 /**
- * Created by Wesly186 on 2016/11/26.
+ * 文章接口
  */
 
 public interface IArticle {

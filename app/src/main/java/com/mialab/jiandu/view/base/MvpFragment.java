@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import com.mialab.jiandu.presenter.BasePresenter;
 
 /**
- * Created by Wesly186 on 2016/11/26.
+ * mvp
  */
 
 public abstract class MvpFragment<P extends BasePresenter> extends BaseFragment {

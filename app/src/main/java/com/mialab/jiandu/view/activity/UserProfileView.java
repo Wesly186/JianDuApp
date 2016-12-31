@@ -3,7 +3,7 @@ package com.mialab.jiandu.view.activity;
 import com.mialab.jiandu.entity.User;
 
 /**
- * Created by Wesly186 on 2016/11/12.
+ * 用户信息
  */
 
 public interface UserProfileView {

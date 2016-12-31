@@ -11,7 +11,7 @@ import retrofit2.http.POST;
 import rx.Observable;
 
 /**
- * Created by Wesly186 on 2016/8/30.
+ * 文章细节
  */
 public interface IArticleDetail {
 

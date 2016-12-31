@@ -16,7 +16,7 @@ import java.util.List;
 
 
 /**
- * Created by Wesly186 on 2016/11/19.
+ * 热榜
  */
 
 public class HotFragmentAdapter extends BaseQuickAdapter<Article, BaseViewHolder> {

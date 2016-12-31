@@ -18,7 +18,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by Wesly186 on 2016/12/7.
+ * 贡献榜
  */
 
 public class RankModel {

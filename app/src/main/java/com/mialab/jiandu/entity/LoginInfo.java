@@ -1,7 +1,7 @@
 package com.mialab.jiandu.entity;
 
 /**
- * Created by Wesly186 on 2016/11/11.
+ * 登陆
  */
 
 public class LoginInfo {

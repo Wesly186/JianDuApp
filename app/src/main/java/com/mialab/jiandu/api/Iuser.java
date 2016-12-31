@@ -15,7 +15,7 @@ import retrofit2.http.Part;
 import rx.Observable;
 
 /**
- * Created by Wesly186 on 2016/11/11.
+ * 登陆及修改用户信息
  */
 
 public interface Iuser {

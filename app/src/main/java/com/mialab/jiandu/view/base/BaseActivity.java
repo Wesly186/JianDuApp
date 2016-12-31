@@ -9,7 +9,7 @@ import com.mialab.jiandu.app.JianDuApplication;
 import butterknife.ButterKnife;
 
 /**
- * Created by Wesly186 on 2016/8/16.
+ * 基础
  */
 public abstract class BaseActivity extends AppCompatActivity {
 

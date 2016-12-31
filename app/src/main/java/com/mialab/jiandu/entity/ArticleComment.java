@@ -1,7 +1,7 @@
 package com.mialab.jiandu.entity;
 
 /**
- * Created by Wesly186 on 2016/8/27.
+ * 文章评论
  */
 public class ArticleComment {
 

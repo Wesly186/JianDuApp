@@ -10,7 +10,7 @@ import retrofit2.http.Query;
 import rx.Observable;
 
 /**
- * Created by Wesly186 on 2016/12/8.
+ * 通知界面
  */
 
 public interface INotify {

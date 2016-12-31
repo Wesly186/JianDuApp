@@ -11,7 +11,7 @@ import retrofit2.http.POST;
 import rx.Observable;
 
 /**
- * Created by Wesly186 on 2016/12/7.
+ * 轮播图
  */
 
 public interface IBanner {

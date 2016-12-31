@@ -1,7 +1,7 @@
 package com.mialab.jiandu.event;
 
 /**
- * Created by Wesly186 on 2016/11/12.
+ * 标识
  */
 
 public class UserInfoUpdate {

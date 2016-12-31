@@ -1,7 +1,7 @@
 package com.mialab.jiandu.view.activity;
 
 /**
- * Created by Wesly186 on 2016/8/23.
+ * 登陆
  */
 public interface LoginView {
 

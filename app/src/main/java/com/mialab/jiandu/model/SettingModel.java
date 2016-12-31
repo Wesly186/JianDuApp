@@ -15,6 +15,9 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+/**
+ * 设置界面自动更新 检查更新
+ */
 public class SettingModel {
 
     private HttpSubscriber<AppVersion> versionSubscriber;

@@ -3,6 +3,9 @@ package com.mialab.jiandu.conf;
 import com.bilibili.socialize.share.core.SharePlatformConfig;
 import com.bilibili.socialize.share.util.SharePlatformConfigHelper;
 
+/**
+ * 全局配置文件
+ */
 public class GlobalConf {
 
     //网络相关

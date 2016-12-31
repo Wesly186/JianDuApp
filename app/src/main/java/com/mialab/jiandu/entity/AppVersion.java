@@ -1,7 +1,7 @@
 package com.mialab.jiandu.entity;
 
 /**
- * Created by Wesly186 on 2016/9/15.
+ * 属性 javabean
  */
 public class AppVersion {
 

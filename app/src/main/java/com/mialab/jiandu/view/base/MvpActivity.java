@@ -5,7 +5,7 @@ import android.os.Bundle;
 import com.mialab.jiandu.presenter.BasePresenter;
 
 /**
- * Created by Wesly186 on 2016/11/26.
+ * mvp
  */
 
 public abstract class MvpActivity<P extends BasePresenter> extends BaseActivity {

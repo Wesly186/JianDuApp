@@ -19,7 +19,7 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 
 /**
- * Created by Wesly186 on 2016/11/19.
+ * 评论
  */
 
 public class CommentsAdapter extends BaseQuickAdapter<ArticleComment, BaseViewHolder> {

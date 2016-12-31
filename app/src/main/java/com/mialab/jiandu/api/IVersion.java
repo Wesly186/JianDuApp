@@ -8,7 +8,7 @@ import retrofit2.http.Query;
 import rx.Observable;
 
 /**
- * App版本
+ * App版本更新
  */
 public interface IVersion {
 

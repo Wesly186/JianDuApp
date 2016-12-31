@@ -1,7 +1,7 @@
 package com.mialab.jiandu.entity;
 
 /**
- * Created by Wesly186 on 2016/8/18.
+ * 范型
  */
 public class BaseModel<T> {
 

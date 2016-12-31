@@ -3,7 +3,7 @@ package com.mialab.jiandu.view.activity;
 import com.mialab.jiandu.entity.AppVersion;
 
 /**
- * Created by Wesly186 on 2016/9/15.
+ * 设置
  */
 public interface SettingView {
 

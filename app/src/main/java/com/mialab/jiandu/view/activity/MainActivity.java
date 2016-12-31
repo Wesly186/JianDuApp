@@ -38,7 +38,7 @@ import java.util.Date;
 import butterknife.BindView;
 
 /**
- * Created by Wesly186 on 2016/8/16.
+ * 主界面
  */
 public class MainActivity extends MvpActivity<MainPresenter> implements MainView {
 

@@ -1,7 +1,7 @@
 package com.mialab.jiandu.entity;
 
 /**
- * Created by Wesly186 on 2016/12/8.
+ * 通知
  */
 
 public class Message extends Article {

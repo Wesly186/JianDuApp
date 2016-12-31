@@ -9,7 +9,7 @@ import rx.Subscriber;
 import rx.Subscription;
 
 /**
- * Created by Wesly186 on 2016/11/28.
+ * 权限申请RxPermissions
  */
 
 public class PermissionModel {

@@ -5,7 +5,7 @@ import com.mialab.jiandu.entity.Article;
 import java.util.List;
 
 /**
- * Created by Wesly186 on 2016/12/2.
+ * 每周热榜
  */
 
 public interface WeekHotView {
